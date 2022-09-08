@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 16:29:41 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/05 15:12:27 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/08 16:18:03 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,35 @@ void	ft_putchar(char c)
 	write(1, &c, 1);
 }
 
-int	key(int key, t_vars *vars)
+int	keypress(int key, void *param)
 {
-	ft_putchar('E');
-	mlx_pixel_put(vars->mlx, vars->win, vars->x, vars->y, WHITE);
-	vars->y += 1;
-	vars->x += 1;
+	t_vars	*vars;
+
+	vars = (t_vars *)param;
+	if (key == 13)
+	{	
+		vars->y -= 1;
+		ft_putchar('W');
+		mlx_pixel_put(vars->mlx, vars->win, vars->x, vars->y, WHITE);
+	}
+	if (key == 0)
+	{
+		vars->x -= 1;
+		ft_putchar('A');
+		mlx_pixel_put(vars->mlx, vars->win, vars->x, vars->y, WHITE);
+	}
+	if (key == 1)
+	{
+		vars->y += 1;
+		ft_putchar('S');
+		mlx_pixel_put(vars->mlx, vars->win, vars->x, vars->y, WHITE);
+	}
+	if (key == 2)
+	{
+		vars->x += 1;
+		ft_putchar('D');
+		mlx_pixel_put(vars->mlx, vars->win, vars->x, vars->y, WHITE);
+	}
 	return (0);
 }
 
@@ -51,7 +74,7 @@ int	main(void)
 		"Welcome to my magical graphic box.");
 	mlx_string_put(vars.mlx, vars.win, 40, 80, NETTLE,
 		"Gaze upon the beautiful line with every key press.");
-	mlx_key_hook(vars.win, key, &vars);
+	mlx_key_hook(vars.win, keypress, (void *)&vars);
 	mlx_loop(vars.mlx);
 	return (0);
 }
