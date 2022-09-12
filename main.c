@@ -6,21 +6,12 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:30:38 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/12 14:24:21 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/12 18:19:17 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "filsdefer.h"
-#include <unistd.h>
-#include <string.h>
-#define ERROR_MESSAGES 2
-
-typedef enum e_error
-{
-	BAD_ARGS,
-	OPEN_FAIL,
-	READ_FAIL,
-}	t_error;
+#include "filsdefer.h"
+#define ERROR_MESSAGES 6
 
 size_t	ft_strlen(const char *s)
 {
@@ -36,8 +27,12 @@ int	error(int errorcode)
 {
 	const char	*error_messages[ERROR_MESSAGES];
 
-	error_messages[0] = "usage: \"./fdf <path>\"";
-	error_messages[1] = "error";
+	error_messages[0] = "\033[1;32musage: \"\033[0;37m./fdf <path>\033[1;32m\"";
+	error_messages[1] = "\033[1;31mERROR: Could not open the file.";
+	error_messages[2] = "\033[1;31mERROR: Could not read the file.";
+	error_messages[3] = "\033[1;31mERROR: File contains invalid characters.";
+	error_messages[4] = "\033[1;31mERROR: Could not close the file.";
+	error_messages[5] = "\033[1;31mERROR: File prints empty.";
 	write(1, error_messages[errorcode], ft_strlen(error_messages[errorcode]));
 	write(1, "\n", 1);
 	return (-1);
@@ -45,12 +40,13 @@ int	error(int errorcode)
 
 int	main(int argc, char **argv)
 {
-	char	total_coordinates;
+	char		total_coordinates;
+	static char	buf[MAX_READ + 1];
 
 	if (argc != 2)
 		return (error(BAD_ARGS));
-//	total_coordinates = validate_file(argv[1], &buf[0]);
-	if (total_coordinates == -1)
-		return (error(-1));
+	total_coordinates = validate_file(argv[1], &buf[0]);
+	if (total_coordinates <= 0)
+		return (error(NO_PRINT));
 	return (0);
 }
