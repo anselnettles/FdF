@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 18:08:59 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/13 15:55:20 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/13 18:13:19 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,26 @@ static int	symbol_validation(char *buf, size_t ret)
 	size_t	i;
 
 	i = 0;
-	while (i < ret)
+	printf("The length of 'ret' is %zu. ", ret);
+	while (i < ret - 1)
 	{
-		if (buf[i] != '0')
+		printf("Loop #%zu. ", i);
+		if (buf[i] < ',' || buf[i] > 'F')
 		{
-			printf("large test area.");
-			if (buf[i] != ' ' || buf[i] != 'x' || buf[i] != '\n')
+			if (buf[i] != ' ' && buf[i] != 'x' && buf[i] != '\n')
 			{
-				printf("it is not ' ', x or newline.");
+				printf("It is not ' ', 'x' or a newline. ");
 				return (error(INVALID_CHARS));
 			}
 		}
 		if (buf[i] == '.' || buf[i] == '/')
 		{
-			printf("there is . or /");
+			printf("There is a '.' or a '/' ");
 			return (error(INVALID_CHARS));
 		}
 		if (buf[i] > '9' && buf[i] < 'A')
 		{
-			printf("there is something between 9 and A.");
+			printf("There is something between '9' and 'A'. ");
 			return (error(INVALID_CHARS));
 		}
 		i++;
@@ -62,9 +63,11 @@ int	validate_file(const char *file, char *buf)
 	if (ret > MAX_READ)
 		return (error(FILE_MAX));
 	if (symbol_validation(buf, ret) == -1)
-		printf("symbol_validation equals -1.");
+	{
+		printf("Symbol_validation equals -1.");
 		return (-1);
-	if (total_coordinates == 0)
-		return (error(NO_PRINT));
+	}
+//	if (total_coordinates == 0)
+//		return (error(NO_PRINT));
 	return (total_coordinates);
 }

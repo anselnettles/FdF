@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/13 13:46:44 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/13 18:01:11 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FILSDEFER_H
 
 // Size definitions.
-# define MAX_READ 545
+# define MAX_READ 50000
 
 // Definitions for color constants.
 # define ORANGE '\033[0;33m'
