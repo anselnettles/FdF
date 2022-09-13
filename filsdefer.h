@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/12 18:20:17 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/13 13:46:44 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef enum e_error
 	READ_FAIL,
 	INVALID_CHARS,
 	CLOSE_FAIL,
+	FILE_MAX,
 	NO_PRINT,
 }	t_error;
 
