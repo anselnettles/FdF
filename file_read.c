@@ -6,27 +6,40 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 18:08:59 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/13 18:13:19 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/14 18:10:16 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 #include <stdio.h>
 
-static int	symbol_validation(char *buf, size_t ret)
+static int	coordinate_validation(char *buf, size_t ret)
 {
+	char	total_coordinates;
 	size_t	i;
 
 	i = 0;
-	printf("The length of 'ret' is %zu. ", ret);
-	while (i < ret - 1)
+
+	return (total_coordinates);
+}
+
+static int	symbol_validation(char *buf, size_t ret)
+{
+	size_t		total_coordinates;
+	size_t		i;
+	static int	counter = 0;
+
+	i = 0;
+	total_coordinates = 0;
+	printf("The length of 'ret' is %zu.\n", ret);
+	while (i < ret)
 	{
-		printf("Loop #%zu. ", i);
+		printf("I#%d. ", counter);
 		if (buf[i] < ',' || buf[i] > 'F')
 		{
 			if (buf[i] != ' ' && buf[i] != 'x' && buf[i] != '\n')
 			{
-				printf("It is not ' ', 'x' or a newline. ");
+				printf("It is in the large scope. It is not ' ', 'x' or a newline. ");
 				return (error(INVALID_CHARS));
 			}
 		}
@@ -40,34 +53,42 @@ static int	symbol_validation(char *buf, size_t ret)
 			printf("There is something between '9' and 'A'. ");
 			return (error(INVALID_CHARS));
 		}
+		if ((buf[i] == ' ' && buf[i-1] == 'A' ) || buf[i] == '\n' || buf[i] == '\0')
+		{
+			total_coordinates++;
+			printf("\033[1;32mC:#%zu. \033[1;37m", total_coordinates);
+		}
 		i++;
+		counter++;
 	}
-	return (0);
+	return (total_coordinates);
 }
 
 int	validate_file(const char *file, char *buf)
 {
 	int		fd;
 	ssize_t	ret;
-	char	total_coordinates;
+	ssize_t	total_coordinates;
 
+	total_coordinates = 0;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (error(OPEN_FAIL));
-	ret = read(fd, buf, MAX_READ + 1);
+	ret = read(fd, buf, MAX_READ);
 	if (ret < 0)
 		return (error(READ_FAIL));
-	if (close(fd) == -1)
-		return (error(CLOSE_FAIL));
-	buf[ret] = 0;
 	if (ret > MAX_READ)
 		return (error(FILE_MAX));
-	if (symbol_validation(buf, ret) == -1)
+	while (ret > 0)
 	{
-		printf("Symbol_validation equals -1.");
-		return (-1);
+		buf[ret] = '\0';
+		total_coordinates += symbol_validation(buf, ret);
+		ret = read(fd, buf, MAX_READ);
 	}
-//	if (total_coordinates == 0)
-//		return (error(NO_PRINT));
+	if (close(fd) == -1)
+		return (error(CLOSE_FAIL));
+	printf("Total coordinates: %zu. ", total_coordinates);
+	if (total_coordinates == 0)
+		return (error(NO_PRINT));
 	return (total_coordinates);
 }

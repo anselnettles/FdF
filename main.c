@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:30:38 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/13 13:48:02 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/14 18:10:33 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	error(int errorcode)
 int	main(int argc, char **argv)
 {
 	char		total_coordinates;
-	static char	buf[MAX_READ + 1];
+	static char		buf[MAX_READ + 1];
 
 	if (argc != 2)
 		return (error(BAD_ARGS));
