@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 18:08:59 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/14 18:10:16 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/15 17:33:19 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ static int	symbol_validation(char *buf, size_t ret)
 {
 	size_t		total_coordinates;
 	size_t		i;
-	static int	counter = 0;
+	static int	j = 0;
 
 	i = 0;
 	total_coordinates = 0;
 	printf("The length of 'ret' is %zu.\n", ret);
 	while (i < ret)
 	{
-		printf("I#%d. ", counter);
+		printf("I#%d. ", j);
 		if (buf[i] < ',' || buf[i] > 'F')
 		{
 			if (buf[i] != ' ' && buf[i] != 'x' && buf[i] != '\n')
@@ -53,22 +53,25 @@ static int	symbol_validation(char *buf, size_t ret)
 			printf("There is something between '9' and 'A'. ");
 			return (error(INVALID_CHARS));
 		}
-		if ((buf[i] == ' ' && buf[i-1] == 'A' ) || buf[i] == '\n' || buf[i] == '\0')
+		//I DONT UNDERSTAND THIS CHECK.
+		if ((buf[i] == ' ' && buf[i - 1] != ' ' && buf[i - 1] != '\n' && j != 0)
+			|| (buf[i] == '\n' && buf[i - 1] != ' ')
+			|| (buf[i] == '\0' && buf[i - 1] != ' '))
 		{
 			total_coordinates++;
 			printf("\033[1;32mC:#%zu. \033[1;37m", total_coordinates);
 		}
 		i++;
-		counter++;
+		j++;
 	}
 	return (total_coordinates);
 }
 
 int	validate_file(const char *file, char *buf)
 {
-	int		fd;
-	ssize_t	ret;
-	ssize_t	total_coordinates;
+	int				fd;
+	ssize_t			ret;
+	static ssize_t	total_coordinates;
 
 	total_coordinates = 0;
 	fd = open(file, O_RDONLY);
@@ -85,6 +88,7 @@ int	validate_file(const char *file, char *buf)
 		total_coordinates += symbol_validation(buf, ret);
 		ret = read(fd, buf, MAX_READ);
 	}
+	//I STILL NEED A CHECK FOR THAT LAST COORDINATE IN PYRAMIDE.
 	if (close(fd) == -1)
 		return (error(CLOSE_FAIL));
 	printf("Total coordinates: %zu. ", total_coordinates);
