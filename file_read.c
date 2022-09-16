@@ -6,22 +6,12 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 18:08:59 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/15 17:33:19 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/16 12:09:27 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 #include <stdio.h>
-
-static int	coordinate_validation(char *buf, size_t ret)
-{
-	char	total_coordinates;
-	size_t	i;
-
-	i = 0;
-
-	return (total_coordinates);
-}
 
 static int	symbol_validation(char *buf, size_t ret)
 {
@@ -53,7 +43,6 @@ static int	symbol_validation(char *buf, size_t ret)
 			printf("There is something between '9' and 'A'. ");
 			return (error(INVALID_CHARS));
 		}
-		//I DONT UNDERSTAND THIS CHECK.
 		if ((buf[i] == ' ' && buf[i - 1] != ' ' && buf[i - 1] != '\n' && j != 0)
 			|| (buf[i] == '\n' && buf[i - 1] != ' ')
 			|| (buf[i] == '\0' && buf[i - 1] != ' '))

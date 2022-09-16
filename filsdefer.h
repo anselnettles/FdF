@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/14 15:35:14 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/16 12:46:50 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ typedef enum e_error
 }	t_error;
 
 int		validate_file(const char *file, char *buf);
+int		extract_file(const char *file, char *buf, int total_coordinates);
 int		error(int errorcode);
 #endif
