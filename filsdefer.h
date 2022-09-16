@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/16 12:46:50 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/16 16:43:25 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <fcntl.h>
 # include <string.h>
 # include <math.h>
+# include "mlx.h"
 
 // Error types
 typedef enum e_error
