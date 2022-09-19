@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/16 17:00:02 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/19 14:28:47 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	ft_putchar(char c)
 //	return (0);
 //}
 
-int	graphic(int x, int y, char *buf)
+int	graphic(int x, int y, int seize)
 {
 	t_vars	vars;
 	vars.y = y;
@@ -120,8 +120,6 @@ int	graphic(int x, int y, char *buf)
 //	mlx_string_put(vars.mlx, vars.win, 40, 80, NETTLE,
 //		"Gaze upon the beautiful line with every key press.");
 //	mlx_key_hook(vars.win, keypress, (void *)&vars);
-	mlx_string_put(vars.mlx, vars.win, x, y, NETTLE,
-			"J");
 	mlx_loop(vars.mlx);
 	return (0);
 }
@@ -132,6 +130,7 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 	int		fd;
 	ssize_t	ret;
 	int		seize;
+	t_vars	vars;
 
 	printf("\n\nWelcome to extract_file(). \nSo, total_coordinates is %d\n",
 			total_coordinates);
@@ -139,6 +138,7 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 	ret = read(fd, buf, MAX_READ);
 	while (ret)
 	{
+		graphic(250, 250, seize);
 		buf[ret] = '\0';
 		printf("|Buf0:%c", buf[0]);
 		if (buf[0] >= '0' && buf[0] <= '9')
@@ -154,7 +154,9 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 		printf("|Buf9:%c", buf[9]);
 		ret = read(fd, buf, MAX_READ);
 	printf("\nPlease, return the integer coordinate to me: %d\n\n", seize);
-	graphic(250, 250, &buf[0]);
+	graphic(250, 250, seize);
+	mlx_string_put(vars.mlx, vars.win, 500, 500, NETTLE,
+			"J");
 	}
 	return(0);
 }
