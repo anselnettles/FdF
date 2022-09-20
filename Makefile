@@ -6,7 +6,7 @@
 #    By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/16 17:04:55 by aviholai          #+#    #+#              #
-#    Updated: 2022/09/16 17:10:21 by aviholai         ###   ########.fr        #
+#    Updated: 2022/09/20 11:21:42 by aviholai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,23 +16,19 @@
 
 NAME			= fdf
 
-SRCDIR			= sources
-SRCS			= \
-				error.c \
-				extract.c \
-				file.c \
+SRC				= \
 				main.c \
-				solver.c
-OBJS			= $(SRCS:.c=.o)
-DIRS			= $(SRCDIR)
+				file_read.c \
+				file_extract.c \
 
-CC				= gcc
-CFLAGS			= #Remember to add me#
+OBJ				= $(SRC:.c=.o)
+
+#CFLAGS			= -Wall -Wextra -Werror -Wconversion
 
 #INCL			= sources/fillit.h
 #INCLDIR			= sources
 
-LIB				= ft
+LIB				= /usr/local/lib/ -lmlx -framework OpenGL -framework Appkit
 LIBDIR			= lib
 LIB_BIN			= libft.a
 
@@ -48,14 +44,19 @@ LISTSRC	=	$(foreach part,$(SRC), 	$(PL)		${G}| $(part)						${PR})
 
 all : $(NAME)
 
-$(NAME) : #$(OBJS) $(LIBDIR)/$(LIB_BIN)
+$(NAME) : $(OBJ)
 	@$(ARTHEAD)
 	@printf "	${PL}									${PR}"
-	@printf "	${PL}	${GN}Creating library LIB.${G}						${PR}"
-	@printf "	${PL}	${GN}Creating binary $(NAME).${G}						${PR}"
-	@echo "${G}"
-	cc -I /usr/local/include main.c file_extract.c file_read.c filsdefer.h -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
-	#@$(CC) $(CFLAGS) $(OBJS) -L$(LIBDIR) -l$(LIB) -o $(NAME)
+	@printf "	${PL}	${O}Ｃｏｍｐｉｌｉｎｇ.		 				${PR}"
+	@printf "	${PL}		${G}| Creating objects and archives with the		${PR}"
+	@printf "	$(PL)		${G}| following source files:				${PR}"
+	@printf "$(LISTSRC)"
+	@printf "	${PL}									${PR}"
+	@cc -I /usr/local/include ${OBJ} -L ${LIB} -o ${NAME}
+	@printf "	${PL}									${PR}"
+	@printf "	${PL}	${O}Ｆｉｎｉｓｈｅｄ ｂｉｎａｒｙ.					${PR}"
+	@printf "	${PL}		${G}| Executable '$(NAME)' compiled with 'cc'.			${PR}"
+	@printf "	${PL}									${PR}"
 	@$(ARTFOOTER)
 
 #%.o : $(SRCDIR)/%.c
@@ -68,15 +69,16 @@ $(NAME) : #$(OBJS) $(LIBDIR)/$(LIB_BIN)
 #	@echo "\033[1;32mCreating debug binary $(NAME).\033[0m"
 #	$(CC) -g $(OBJS) $(LIBDIR) $(LIB) -o $(NAME)
 
-#clean :
-#	@echo "\033[1;32mCleaning object files.\033[0m"
-#	$(RM) $(OBJS)
-#	make clean -C lib
+clean :
+	@echo "\033[1;32mCleaning object files.\033[0m"
+	@rm -v -f ${OBJ}
+	@rm -v -f *.bak
+	@rm -v -f *~
 
-#fclean : clean
-#	@echo "\033[1;32mCleaning binary and debug files.\033[0m"
-#	$(RM) $(NAME) *.dSYM
-#	make fclean -C lib
+fclean : clean
+	@echo "\033[1;32mCleaning binary and debug files.\033[0m"
+	@rm -v -f $(NAME)
+	@rm -v -f *.dSYM
 
 #re : fclean all
 
