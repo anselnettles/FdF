@@ -6,7 +6,7 @@
 #    By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/16 17:04:55 by aviholai          #+#    #+#              #
-#    Updated: 2022/09/20 11:21:42 by aviholai         ###   ########.fr        #
+#    Updated: 2022/09/20 12:19:22 by aviholai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,12 +25,7 @@ OBJ				= $(SRC:.c=.o)
 
 #CFLAGS			= -Wall -Wextra -Werror -Wconversion
 
-#INCL			= sources/fillit.h
-#INCLDIR			= sources
-
 LIB				= /usr/local/lib/ -lmlx -framework OpenGL -framework Appkit
-LIBDIR			= lib
-LIB_BIN			= libft.a
 
 RM				= /bin/rm -rf
 
@@ -59,19 +54,10 @@ $(NAME) : $(OBJ)
 	@printf "	${PL}									${PR}"
 	@$(ARTFOOTER)
 
-#%.o : $(SRCDIR)/%.c
-#	$(CC) $(CFLAGS) -I$(INCLDIR) -c -o $@ $<
-
-#$(LIBDIR)/$(LIB_BIN) :
-#	@echo "${G}" ; make -C lib
-
-#debug : $(OBJS)
-#	@echo "\033[1;32mCreating debug binary $(NAME).\033[0m"
-#	$(CC) -g $(OBJS) $(LIBDIR) $(LIB) -o $(NAME)
-
 clean :
 	@echo "\033[1;32mCleaning object files.\033[0m"
 	@rm -v -f ${OBJ}
+	@rm -v -f *.gch
 	@rm -v -f *.bak
 	@rm -v -f *~
 
@@ -80,7 +66,7 @@ fclean : clean
 	@rm -v -f $(NAME)
 	@rm -v -f *.dSYM
 
-#re : fclean all
+re : fclean all
 
 #	Colors and visual effects. Used for more clearer visual representation.
 #	'NOC' stand for "no color", 'O' for orange, 'G' for gray,

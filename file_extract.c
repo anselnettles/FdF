@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/19 14:28:47 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/20 15:48:37 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,23 +106,23 @@ void	ft_putchar(char c)
 //	return (0);
 //}
 
-int	graphic(int x, int y, int seize)
-{
-	t_vars	vars;
-	vars.y = y;
-	vars.x = x;
-
-	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 1000, 1000,
-			"aMIST the Nettles | Ansel's Magic Box");
-	mlx_string_put(vars.mlx, vars.win, 40, 50, NETTLE,
-		"Welcome to my magical graphic box.");
+//int	graphic(int x, int y, int seize)
+//{
+//	t_vars	vars;
+//	vars.y = y;
+//	vars.x = x;
+//
+//	vars.mlx = mlx_init();
+//	vars.win = mlx_new_window(vars.mlx, 1000, 1000,
+//			"aMIST the Nettles | Ansel's Magic Box");
+//	mlx_string_put(vars.mlx, vars.win, 40, 50, NETTLE,
+//		"Welcome to my magical graphic box.");
 //	mlx_string_put(vars.mlx, vars.win, 40, 80, NETTLE,
 //		"Gaze upon the beautiful line with every key press.");
 //	mlx_key_hook(vars.win, keypress, (void *)&vars);
-	mlx_loop(vars.mlx);
-	return (0);
-}
+//	mlx_loop(vars.mlx);
+//	return (0);
+//}
 
 
 int	extract_file(const char *file, char *buf, int total_coordinates)
@@ -131,18 +131,31 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 	ssize_t	ret;
 	int		seize;
 	t_vars	vars;
+	int		x = 0;
+	int		y = 0;
+	int		color;
 
 	printf("\n\nWelcome to extract_file(). \nSo, total_coordinates is %d\n",
 			total_coordinates);
 	fd = open(file, O_RDONLY);
 	ret = read(fd, buf, MAX_READ);
+	vars.mlx = mlx_init();
+	vars.win = mlx_new_window(vars.mlx, 1000, 1000,
+			"aMIST the Nettles | Ansel's Magic Box");
+	mlx_string_put(vars.mlx, vars.win, 40, 50, NETTLE,
+		"Welcome to my magical graphic box.");
+	printf("%zu", ret);
 	while (ret)
 	{
-		graphic(250, 250, seize);
 		buf[ret] = '\0';
 		printf("|Buf0:%c", buf[0]);
 		if (buf[0] >= '0' && buf[0] <= '9')
 			seize = ft_atoi(&buf[0]);
+		if	(seize < 5)
+			color = 0xFF7800;
+		else
+			color = 0xFFFFFF;
+		mlx_pixel_put(vars.mlx, vars.win, x, y, color);
 		printf("|Buf1:%c", buf[1]);
 		printf("|Buf2:%c", buf[2]);
 		printf("|Buf3:%c", buf[3]);
@@ -153,10 +166,16 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 		printf("|Buf8:%c", buf[8]);
 		printf("|Buf9:%c", buf[9]);
 		ret = read(fd, buf, MAX_READ);
-	printf("\nPlease, return the integer coordinate to me: %d\n\n", seize);
-	graphic(250, 250, seize);
-	mlx_string_put(vars.mlx, vars.win, 500, 500, NETTLE,
-			"J");
+		printf("\nPlease, return the integer coordinate to me: %d\n\n", seize);
+//		mlx_pixel_put(vars.mlx, vars.win, ret + 25, ret + 25, WHITE);
+//	mlx_string_put(vars.mlx, vars.win, 500, 500, NETTLE,
+//			"J");
+//	mlx_string_put(vars.mlx, vars.win, 40, 80, NETTLE,
+//		"Gaze upon the beautiful line with every key press.");
+//	mlx_key_hook(vars.win, keypress, (void *)&vars);
+	x += 25;
+	y += 25;
 	}
+	mlx_loop(vars.mlx);
 	return(0);
 }
