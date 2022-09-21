@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/20 15:48:37 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/21 12:11:52 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,9 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 	ssize_t	ret;
 	int		seize;
 	t_vars	vars;
-	int		x = 0;
-	int		y = 0;
+	int		i;
+	int		x_pos;
+	int		y_pos;
 	int		color;
 
 	printf("\n\nWelcome to extract_file(). \nSo, total_coordinates is %d\n",
@@ -140,41 +141,39 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 	fd = open(file, O_RDONLY);
 	ret = read(fd, buf, MAX_READ);
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 1000, 1000,
+	vars.win = mlx_new_window(vars.mlx, 640, 480,
 			"aMIST the Nettles | Ansel's Magic Box");
-	mlx_string_put(vars.mlx, vars.win, 40, 50, NETTLE,
+	mlx_string_put(vars.mlx, vars.win, 30, 20, NETTLE,
 		"Welcome to my magical graphic box.");
-	printf("%zu", ret);
+	x_pos = START_POSITION;
+	y_pos = START_POSITION;
 	while (ret)
 	{
 		buf[ret] = '\0';
-		printf("|Buf0:%c", buf[0]);
-		if (buf[0] >= '0' && buf[0] <= '9')
-			seize = ft_atoi(&buf[0]);
-		if	(seize < 5)
-			color = 0xFF7800;
-		else
-			color = 0xFFFFFF;
-		mlx_pixel_put(vars.mlx, vars.win, x, y, color);
-		printf("|Buf1:%c", buf[1]);
-		printf("|Buf2:%c", buf[2]);
-		printf("|Buf3:%c", buf[3]);
-		printf("|Buf4:%c", buf[4]);
-		printf("|Buf5:%c", buf[5]);
-		printf("|Buf6:%c", buf[6]);
-		printf("|Buf7:%c", buf[7]);
-		printf("|Buf8:%c", buf[8]);
-		printf("|Buf9:%c", buf[9]);
+		i = 0;
+		while (i < MAX_READ)
+		{
+			printf("|Buf%d:%c", buf[i]);
+			if (buf[i] >= '0' && buf[i] <= '9')
+			{
+				seize = ft_atoi(&buf[i]);
+				printf(" %d.", seize);
+				if (seize > 5)
+					color = 0xFFFFFF;
+				else
+					color = 0xFFAA00;
+				mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos, color);
+			}
+			if (buf[i] == '\n')
+			{
+				x_pos = START_POSITION;
+				y_pos += INCREMENT;
+			}
+			if (buf[i] != '\n' && buf[i] != ' ' && buf[i] != '\t')
+				x_pos += INCREMENT;
+			i++;
+		}
 		ret = read(fd, buf, MAX_READ);
-		printf("\nPlease, return the integer coordinate to me: %d\n\n", seize);
-//		mlx_pixel_put(vars.mlx, vars.win, ret + 25, ret + 25, WHITE);
-//	mlx_string_put(vars.mlx, vars.win, 500, 500, NETTLE,
-//			"J");
-//	mlx_string_put(vars.mlx, vars.win, 40, 80, NETTLE,
-//		"Gaze upon the beautiful line with every key press.");
-//	mlx_key_hook(vars.win, keypress, (void *)&vars);
-	x += 25;
-	y += 25;
 	}
 	mlx_loop(vars.mlx);
 	return(0);
