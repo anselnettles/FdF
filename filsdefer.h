@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/16 16:43:25 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/21 14:54:06 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,13 @@
 
 // Size definitions.
 # define MAX_READ 10
+# define START_POSITION 60
+# define INCREMENT 40
 
 // Definitions for color constants.
+# define NETTLE 0xAAD4B5
+# define WHITE 0xFFFFFF
+
 # define ORANGE '\033[0;33m'
 # define GRAY '\033[0;37m'
 # define RED '\033[1;31m¬'
@@ -28,6 +33,12 @@
 # include <string.h>
 # include <math.h>
 # include "mlx.h"
+
+typedef struct	s_vars {
+	void	*mlx;
+	void	*win;
+	ssize_t	newline_index;
+}	t_vars;
 
 // Error types
 typedef enum e_error

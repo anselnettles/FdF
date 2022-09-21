@@ -6,12 +6,26 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 18:08:59 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/16 12:09:27 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/21 14:54:25 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 #include <stdio.h>
+
+int			get_newline(char *buf)
+{
+	ssize_t	i;
+
+	i = 0;
+	while (buf[i])
+	{
+		if (buf[i] == '\n')
+		return (i);
+		i++;
+	}
+	return (error(INVALID_CHARS));
+}
 
 static int	symbol_validation(char *buf, size_t ret)
 {
@@ -61,6 +75,7 @@ int	validate_file(const char *file, char *buf)
 	int				fd;
 	ssize_t			ret;
 	static ssize_t	total_coordinates;
+	t_vars			vars;
 
 	total_coordinates = 0;
 	fd = open(file, O_RDONLY);
@@ -71,6 +86,7 @@ int	validate_file(const char *file, char *buf)
 		return (error(READ_FAIL));
 	if (ret > MAX_READ)
 		return (error(FILE_MAX));
+	vars.newline_index = get_newline(buf);
 	while (ret > 0)
 	{
 		buf[ret] = '\0';

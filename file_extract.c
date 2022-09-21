@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/21 12:11:52 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:06:08 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,6 @@ int	ft_atoi(const char *str)
 	}
 	return ((int)result * if_negative);
 }
-
-#define NETTLE 0xAAD4B5
-
-typedef struct	s_vars {
-	void	*mlx;
-	void	*win;
-	int	x;
-	int	y;
-}	t_vars;
 
 void	ft_putchar(char c)
 {
@@ -132,6 +123,7 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 	int		seize;
 	t_vars	vars;
 	int		i;
+	int		i2;
 	int		x_pos;
 	int		y_pos;
 	int		color;
@@ -153,7 +145,7 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 		i = 0;
 		while (i < MAX_READ)
 		{
-			printf("|Buf%d:%c", buf[i]);
+			printf("|Buf%d:%c", i, buf[i]);
 			if (buf[i] >= '0' && buf[i] <= '9')
 			{
 				seize = ft_atoi(&buf[i]);
@@ -163,6 +155,22 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 				else
 					color = 0xFFAA00;
 				mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos, color);
+				if (buf[i + 1] != '\n' && buf[i + 2] != '\n')
+				{
+					i2 = INCREMENT;
+					while (i2)
+					{
+						mlx_pixel_put(vars.mlx, vars.win, x_pos + i2, y_pos, color);
+						i2--;
+					}
+				}
+				if (ret > vars.newline_index)
+					i2 = INCREMENT;
+					while (i2)
+					{
+						mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos + i2, color);
+						i2--;
+					}
 			}
 			if (buf[i] == '\n')
 			{
