@@ -6,29 +6,37 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 18:08:59 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/21 14:54:25 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:30:40 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 #include <stdio.h>
 
-int			get_newline(char *buf)
+static int	newline_count(char *buf)
 {
-	ssize_t	i;
+	t_vars	vars;
+	int		i;
 
 	i = 0;
 	while (buf[i])
 	{
 		if (buf[i] == '\n')
-		return (i);
+		{
+			vars.newline_count += 1:;
+			printf("Found newline %d. ", vars.newline_count);
+		}
 		i++;
 	}
-	return (error(INVALID_CHARS));
+	if (vars.newline_count <= 0)
+		return (error(INVALID_CHARS));
+	else
+		return (0);
 }
 
 static int	symbol_validation(char *buf, size_t ret)
 {
+	t_vars		vars;
 	size_t		total_coordinates;
 	size_t		i;
 	static int	j = 0;
@@ -67,6 +75,7 @@ static int	symbol_validation(char *buf, size_t ret)
 		i++;
 		j++;
 	}
+	newline_count(buf);
 	return (total_coordinates);
 }
 
@@ -77,6 +86,8 @@ int	validate_file(const char *file, char *buf)
 	static ssize_t	total_coordinates;
 	t_vars			vars;
 
+	vars.newline_count = 0;
+	printf("what is newline_count: %d", vars.newline_count);
 	total_coordinates = 0;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
@@ -86,7 +97,6 @@ int	validate_file(const char *file, char *buf)
 		return (error(READ_FAIL));
 	if (ret > MAX_READ)
 		return (error(FILE_MAX));
-	vars.newline_index = get_newline(buf);
 	while (ret > 0)
 	{
 		buf[ret] = '\0';

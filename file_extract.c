@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/21 15:06:08 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:06:59 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,23 +157,24 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 				mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos, color);
 				if (buf[i + 1] != '\n' && buf[i + 2] != '\n')
 				{
-					i2 = INCREMENT;
-					while (i2)
+					i2 = 1;
+					while (i2 <= (INCREMENT - 1))
 					{
 						mlx_pixel_put(vars.mlx, vars.win, x_pos + i2, y_pos, color);
-						i2--;
+						i2++;
 					}
 				}
-				if (ret > vars.newline_index)
-					i2 = INCREMENT;
-					while (i2)
+				if (vars.newline_count)
+					i2 = 1;
+					while (i2 <= (INCREMENT - 1))
 					{
 						mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos + i2, color);
-						i2--;
+						i2++;
 					}
 			}
 			if (buf[i] == '\n')
 			{
+				vars.newline_count--;
 				x_pos = START_POSITION;
 				y_pos += INCREMENT;
 			}

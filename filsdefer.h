@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/21 14:54:06 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:25:34 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 typedef struct	s_vars {
 	void	*mlx;
 	void	*win;
-	ssize_t	newline_index;
+	int		newline_count;
 }	t_vars;
 
 // Error types
