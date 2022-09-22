@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 18:08:59 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/22 12:30:40 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:39:15 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static int	newline_count(char *buf)
 	{
 		if (buf[i] == '\n')
 		{
-			vars.newline_count += 1:;
-			printf("Found newline %d. ", vars.newline_count);
+			vars.newline_count += 1;
+			printf("Found newline %zd. ", vars.newline_count);
 		}
 		i++;
 	}
