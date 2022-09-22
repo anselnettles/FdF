@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/22 15:33:22 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:35:45 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,31 @@ void	ft_putchar(char c)
 //}
 
 
-int	extract_file(const char *file, char *buf, int total_coordinates)
+
+static int	depth_parser(int pos, char *buf)
+{
+	int		i;
+	int		depth;
+	char	*s;
+
+	i = 0;
+
+	s = (char *)malloc(sizeof(char)*(ft_strlen(buf) + 1));
+
+	while (buf[pos] != ' ' && buf[pos] != ',' && buf[pos] != '\n' && buf[pos])
+	{
+		s[i] = buf[pos];
+		i++;
+		pos++;
+	}
+	s[i] = '\0';
+	printf(" | String: %s", s);
+	depth = ft_atoi(s);
+	printf(" | Atoi: %d", depth);
+	return (depth);
+}
+
+int	extract_file(const char *file, char *buf, int total_newlines)
 {
 	int		fd;
 	ssize_t	ret;
@@ -126,10 +150,12 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 	int		i2;
 	int		x_pos;
 	int		y_pos;
+	int		depth;
 	int		color;
 
-	printf("\n\nWelcome to extract_file(). \nSo, total_coordinates is %d\n",
-			total_coordinates);
+
+	printf("\n\nWelcome to extract_file(). \nSo, total_newlines is %d\n",
+			total_newlines);
 	fd = open(file, O_RDONLY);
 	ret = read(fd, buf, MAX_READ);
 	vars.mlx = mlx_init();
@@ -145,11 +171,16 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 		i = 0;
 		while (i < MAX_READ)
 		{
-			printf("|Buf%d:%c", i, buf[i]);
-			if (buf[i] >= '0' && buf[i] <= '9')
+			printf("\n| Buf: %d | Char: %c", i, buf[i]);
+			depth = depth_parser(i, buf);
+			if (buf[i] == '-')
+				i++;
+			//WE'RE NOT DONE HERE YET
+			//color = color_parser(buf);
+			if ((buf[i] >= '0' && buf[i] <= '9') ||
+					(buf[i] == '-' && buf[i + 1] > '0' && buf[i + 1] <= '9'))
 			{
 				seize = ft_atoi(&buf[i]);
-				printf(" %d.", seize);
 				if (seize > 5)
 					color = 0xFFFFFF;
 				else
@@ -164,7 +195,7 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 						i2++;
 					}
 				}
-				if (vars.newline_count)
+				if (total_newlines > 1)
 					i2 = 1;
 					while (i2 <= (INCREMENT - 1))
 					{
@@ -174,7 +205,7 @@ int	extract_file(const char *file, char *buf, int total_coordinates)
 			}
 			if (buf[i] == '\n')
 			{
-				vars.newline_count--;
+				total_newlines--;
 				x_pos = START_POSITION;
 				y_pos += INCREMENT;
 			}

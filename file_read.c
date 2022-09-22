@@ -6,19 +6,40 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 18:08:59 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/22 15:39:15 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:24:31 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 #include <stdio.h>
 
-static int	newline_count(char *buf)
+//t_vars get_vars()
+//{
+/*	static t_vars vars;
+
+	return vars;
+}
+
+size_t get_cunt()
+{
+	static size_t cunt = 0;
+
+	return (cunt);
+
+void init_vars(t_vars *vars)
+{
+	vars->newline_count = 0;
+}
+
+static int	nl_count(char *buf)
 {
 	t_vars	vars;
 	int		i;
-
 	i = 0;
+	vars = get_vars();
+	init_vars(vars);
+	printf("\n\nnewlinecount: %zd", vars.newline_count);
+	cunt++;
 	while (buf[i])
 	{
 		if (buf[i] == '\n')
@@ -33,16 +54,17 @@ static int	newline_count(char *buf)
 	else
 		return (0);
 }
+*/
+
 
 static int	symbol_validation(char *buf, size_t ret)
 {
-	t_vars		vars;
-	size_t		total_coordinates;
+	size_t		total_newlines;
 	size_t		i;
 	static int	j = 0;
 
 	i = 0;
-	total_coordinates = 0;
+	total_newlines = 0;
 	printf("The length of 'ret' is %zu.\n", ret);
 	while (i < ret)
 	{
@@ -65,30 +87,31 @@ static int	symbol_validation(char *buf, size_t ret)
 			printf("There is something between '9' and 'A'. ");
 			return (error(INVALID_CHARS));
 		}
-		if ((buf[i] == ' ' && buf[i - 1] != ' ' && buf[i - 1] != '\n' && j != 0)
-			|| (buf[i] == '\n' && buf[i - 1] != ' ')
-			|| (buf[i] == '\0' && buf[i - 1] != ' '))
+		if (buf[i] == '\n')
 		{
-			total_coordinates++;
-			printf("\033[1;32mC:#%zu. \033[1;37m", total_coordinates);
+			total_newlines++;
+			printf("Found newline %zu. ", total_newlines);
 		}
+		//if ((buf[i] == ' ' && buf[i - 1] != ' ' && buf[i - 1] != '\n' && j != 0)
+		//	|| (buf[i] == '\n' && buf[i - 1] != ' ')
+		//	|| (buf[i] == '\0' && buf[i - 1] != ' '))
+		//{
+		//	total_coordinates++;
+		//	printf("\033[1;32mC:#%zu. \033[1;37m", total_coordinates);
+		//}
 		i++;
 		j++;
 	}
-	newline_count(buf);
-	return (total_coordinates);
+	return (total_newlines);
 }
 
 int	validate_file(const char *file, char *buf)
 {
 	int				fd;
 	ssize_t			ret;
-	static ssize_t	total_coordinates;
-	t_vars			vars;
+	static ssize_t	total_newlines;
 
-	vars.newline_count = 0;
-	printf("what is newline_count: %d", vars.newline_count);
-	total_coordinates = 0;
+	total_newlines = 0;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (error(OPEN_FAIL));
@@ -100,14 +123,14 @@ int	validate_file(const char *file, char *buf)
 	while (ret > 0)
 	{
 		buf[ret] = '\0';
-		total_coordinates += symbol_validation(buf, ret);
+		total_newlines += symbol_validation(buf, ret);
 		ret = read(fd, buf, MAX_READ);
 	}
 	//I STILL NEED A CHECK FOR THAT LAST COORDINATE IN PYRAMIDE.
 	if (close(fd) == -1)
 		return (error(CLOSE_FAIL));
-	printf("Total coordinates: %zu. ", total_coordinates);
-	if (total_coordinates == 0)
-		return (error(NO_PRINT));
-	return (total_coordinates);
+	printf("Total newlines: %zu. ", total_newlines);
+	if (total_newlines == 0)
+		return (error(INVALID_CHARS));
+	return (total_newlines);
 }

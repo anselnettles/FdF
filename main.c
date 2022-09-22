@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:30:38 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/16 12:46:17 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:35:58 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,17 @@ int	error(int errorcode)
 
 int	main(int argc, char **argv)
 {
-	int		total_coordinates;
+	int		total_newlines;
 	static char		buf[MAX_READ + 1];
 	int fd = 0;
 	size_t ret = 0;
 
 	if (argc != 2)
 		return (error(BAD_ARGS));
-	total_coordinates = validate_file(argv[1], &buf[0]);
-	if (total_coordinates == -1)
+	total_newlines = validate_file(argv[1], &buf[0]);
+	if (total_newlines== -1)
 		return (-1);
-	if (extract_file(argv[1], &buf[0], total_coordinates) == -1)
+	if (extract_file(argv[1], &buf[0], total_newlines) == -1)
 		return (-1);
 	return (0);
 }

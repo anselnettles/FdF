@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/22 15:33:53 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:25:14 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 
 //# include "../lib/libft.h"
 # include <unistd.h>
+# include <stdlib.h>
 # include <fcntl.h>
 # include <string.h>
 # include <math.h>
