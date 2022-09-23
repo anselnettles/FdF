@@ -6,23 +6,13 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:30:38 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/22 19:35:58 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/23 16:35:48 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 #include "stdio.h"
 #define ERROR_MESSAGES 7
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	len;
-
-	len = 0;
-	while (s[len] != '\0')
-		len++;
-	return (len);
-}
 
 int	error(int errorcode)
 {

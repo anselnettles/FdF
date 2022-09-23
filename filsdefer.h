@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/23 11:42:33 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/23 16:40:35 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # define RED '\033[1;31m¬'
 # define GREEN '\033[1;32m'
 
-//# include "../lib/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
@@ -56,4 +55,7 @@ typedef enum e_error
 int		validate_file(const char *file, char *buf);
 int		extract_file(const char *file, char *buf, int total_coordinates);
 int		error(int errorcode);
+int		ft_atoi(const char *str);
+void	ft_putchar(char c);
+size_t	ft_strlen(const char *s);
 #endif
