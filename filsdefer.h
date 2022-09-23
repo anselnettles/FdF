@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/22 19:25:14 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/23 11:42:33 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FILSDEFER_H
 
 // Size definitions.
-# define MAX_READ 10
+# define MAX_READ 50
 # define START_POSITION 60
 # define INCREMENT 40
 

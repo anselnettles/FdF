@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/22 19:35:45 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:03:08 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,41 @@ void	ft_putchar(char c)
 //	return (0);
 //}
 
+/*static int	buf_relocate(int i, char *buf)
+{
+	while (buf[i] != ' ' && buf[i] != ',' && buf[i] != '\n' && buf[i])
+		i++
+*/
 
+static int	color_parser(int pos, char *buf, int depth)
+{
+	int	i;
+	char *s;
+	int color;
+
+	color = 0xcc0000;
+	if (buf[pos] == ',')
+	{
+		i = 0;
+		pos++;
+		s = (char *)malloc(sizeof(char)*(ft_strlen(buf) + 1));
+		while ((buf[pos] >= 'A' && buf[pos] <= 'F' )||
+				(buf[pos] >= 'a' && buf[pos] <= 'f' )||
+				(buf[pos] >= '0' && buf[pos] <= '9'))
+		{
+			s[i] = buf[pos];
+			i++;
+			pos++;
+		}
+		s[i] = '\0';
+		color = ft_atoi(s);
+	}
+	else
+	{
+//		depth
+	}
+	return (color);
+}
 
 static int	depth_parser(int pos, char *buf)
 {
@@ -165,6 +199,7 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 		"Welcome to my magical graphic box.");
 	x_pos = START_POSITION;
 	y_pos = START_POSITION;
+	color = 0;
 	while (ret)
 	{
 		buf[ret] = '\0';
@@ -172,19 +207,17 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 		while (i < MAX_READ)
 		{
 			printf("\n| Buf: %d | Char: %c", i, buf[i]);
-			depth = depth_parser(i, buf);
+			if (buf[i] != ' ' && buf[i] != '\n')
+				depth = depth_parser(i, buf);
 			if (buf[i] == '-')
-				i++;
-			//WE'RE NOT DONE HERE YET
-			//color = color_parser(buf);
+			{
+				while (!(buf[i] >= '0' && buf[i] <= '9'))
+					i++;
+			}
+			color = color_parser(i, buf, depth);
 			if ((buf[i] >= '0' && buf[i] <= '9') ||
 					(buf[i] == '-' && buf[i + 1] > '0' && buf[i + 1] <= '9'))
 			{
-				seize = ft_atoi(&buf[i]);
-				if (seize > 5)
-					color = 0xFFFFFF;
-				else
-					color = 0xFFAA00;
 				mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos, color);
 				if (buf[i + 1] != '\n' && buf[i + 2] != '\n')
 				{
