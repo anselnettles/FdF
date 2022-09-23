@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/23 13:03:08 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/23 16:12:08 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,55 +121,58 @@ void	ft_putchar(char c)
 		i++
 */
 
-static int	color_parser(int pos, char *buf, int depth)
+static int	color_parser(char *coordinate, int depth)
 {
-	int	i;
-	char *s;
-	int color;
+	int		i;
+	int		i2;
+	char	*new_string;
+	int		color;
 
 	color = 0xcc0000;
-	if (buf[pos] == ',')
+	i = 0;
+	while (coordinate[i])
 	{
-		i = 0;
-		pos++;
-		s = (char *)malloc(sizeof(char)*(ft_strlen(buf) + 1));
-		while ((buf[pos] >= 'A' && buf[pos] <= 'F' )||
-				(buf[pos] >= 'a' && buf[pos] <= 'f' )||
-				(buf[pos] >= '0' && buf[pos] <= '9'))
+		if (coordinate[i] == ',')
 		{
-			s[i] = buf[pos];
 			i++;
-			pos++;
+			i2 = 0;
+			new_string = (char *)malloc(sizeof(char)*(ft_strlen(coordinate) + 1));
+			while (coordinate[i])
+			{
+				new_string[i2] = coordinate[i];
+				i++;
+				i2++;
+			}
+			new_string[i2] = '\0';
+			//FIGURE THIS OUT LATER.
+			printf(" | HEX color: %s!", new_string);
+			return (color = ft_atoi(new_string));
 		}
-		s[i] = '\0';
-		color = ft_atoi(s);
+		i++;
 	}
+	printf(" | Reg color.");
+	if (depth < 5)
+		return (color = 0xffbe00);
 	else
-	{
-//		depth
-	}
-	return (color);
+		return (color = 0xffffff);
 }
 
-static int	depth_parser(int pos, char *buf)
+static int	depth_parser(char *coordinate)
 {
 	int		i;
 	int		depth;
-	char	*s;
+	char	*new_string;
 
 	i = 0;
-
-	s = (char *)malloc(sizeof(char)*(ft_strlen(buf) + 1));
-
-	while (buf[pos] != ' ' && buf[pos] != ',' && buf[pos] != '\n' && buf[pos])
+	new_string = (char *)malloc(sizeof(char)*(ft_strlen(coordinate) + 1));
+	while (coordinate[i] != ',' && coordinate[i])
 	{
-		s[i] = buf[pos];
+		new_string[i] = coordinate[i];
 		i++;
-		pos++;
 	}
-	s[i] = '\0';
-	printf(" | String: %s", s);
-	depth = ft_atoi(s);
+	new_string[i] = '\0';
+	printf(" | String: %s", new_string);
+	depth = ft_atoi(new_string);
 	printf(" | Atoi: %d", depth);
 	return (depth);
 }
@@ -178,10 +181,11 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 {
 	int		fd;
 	ssize_t	ret;
-	int		seize;
 	t_vars	vars;
 	int		i;
 	int		i2;
+	int		i3;
+	char	*coordinate;
 	int		x_pos;
 	int		y_pos;
 	int		depth;
@@ -207,43 +211,50 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 		while (i < MAX_READ)
 		{
 			printf("\n| Buf: %d | Char: %c", i, buf[i]);
-			if (buf[i] != ' ' && buf[i] != '\n')
-				depth = depth_parser(i, buf);
-			if (buf[i] == '-')
+			//IF BUF INDEX IS AT A COORDINATE:
+			if (buf[i] != ' ' && buf[i] != '\n' && buf[i] != '\t' &&  buf[i])
 			{
-				while (!(buf[i] >= '0' && buf[i] <= '9'))
-					i++;
-			}
-			color = color_parser(i, buf, depth);
-			if ((buf[i] >= '0' && buf[i] <= '9') ||
-					(buf[i] == '-' && buf[i + 1] > '0' && buf[i + 1] <= '9'))
-			{
-				mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos, color);
-				if (buf[i + 1] != '\n' && buf[i + 2] != '\n')
+				coordinate = (char *)malloc(sizeof(char)*(ft_strlen(buf) + 1));
+				i3 = 0;
+				while (buf[i] != ' ' && buf[i] != '\n' && buf[i])
 				{
-					i2 = 1;
-					while (i2 <= (INCREMENT - 1))
-					{
-						mlx_pixel_put(vars.mlx, vars.win, x_pos + i2, y_pos, color);
-						i2++;
-					}
+					coordinate[i3] = buf[i];
+					i++;
+					i3++;
 				}
-				if (total_newlines > 1)
-					i2 = 1;
-					while (i2 <= (INCREMENT - 1))
-					{
-						mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos + i2, color);
-						i2++;
-					}
+				while (coordinate[i3])
+				{
+					coordinate[i3] = '\0';
+					i3++;
+				}
+				depth = depth_parser(coordinate);
+				color = color_parser(coordinate, depth);
+				mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos, color);
+				x_pos += INCREMENT;
 			}
+				//if (buf[i + 1] != '\n' && buf[i + 2] != '\n')
+				//{
+				//	i2 = 1;
+				//	while (i2 <= (INCREMENT - 1))
+				//	{
+				//		mlx_pixel_put(vars.mlx, vars.win, x_pos + i2, y_pos, color);
+				//		i2++;
+				//	}
+				//}
+				//if (total_newlines > 1)
+				//	i2 = 1;
+				//	while (i2 <= (INCREMENT - 1))
+				//	{
+				//		mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos + i2, color);
+				//		i2++;
+				//	}
+		//	}
 			if (buf[i] == '\n')
 			{
 				total_newlines--;
 				x_pos = START_POSITION;
 				y_pos += INCREMENT;
 			}
-			if (buf[i] != '\n' && buf[i] != ' ' && buf[i] != '\t')
-				x_pos += INCREMENT;
 			i++;
 		}
 		ret = read(fd, buf, MAX_READ);
