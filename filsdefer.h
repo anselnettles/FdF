@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/23 17:13:06 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/26 17:57:35 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # define MAX_READ 500
 # define START_POSITION 60
 # define INCREMENT 40
+# define TRUE 1
+# define FALSE 0
 
 // Definitions for color constants.
 # define NETTLE 0xAAD4B5
