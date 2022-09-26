@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/23 16:47:10 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/26 18:06:41 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 //	if (key == 0)
 //	{
 //		vars->x -= 1;
-//		ft_putchar('A');
+//		aft_putchar('A');
 //		mlx_pixel_put(vars->mlx, vars->win, vars->x, vars->y, WHITE);
 //	}
 //	if (key == 1)
@@ -44,6 +44,13 @@
 //	}
 //	return (0);
 //}
+
+void	isometric(int x_pos, int y_pos, int color)
+{
+	
+	mlx_pixel_put(vars->mlx, vars->win, x_pos, y_pos, color);
+	y_pos =+ INCREMENT;
+}
 
 static int	color_parser(char *coordinate, int depth)
 {
@@ -114,6 +121,7 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 	int		y_pos;
 	int		depth;
 	int		color;
+	int		parallel_mode;
 
 
 	printf("\n\nWelcome to extract_file(). \nSo, total_newlines is %d\n",
@@ -127,6 +135,7 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 		"Welcome to my magical graphic box.");
 	x_pos = START_POSITION;
 	y_pos = START_POSITION;
+	parallel_mode = TRUE;
 	color = 0;
 	while (ret)
 	{
@@ -153,7 +162,10 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 				}
 				depth = depth_parser(coordinate);
 				color = color_parser(coordinate, depth);
-				mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos, color);
+				if (parallel_mode == TRUE)
+					mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos, color);
+				else if
+					isometric(x_pos, y_pos, color);
 				x_pos += INCREMENT;
 			}
 				//if (buf[i + 1] != '\n' && buf[i + 2] != '\n')
@@ -178,6 +190,11 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 				total_newlines--;
 				x_pos = START_POSITION;
 				y_pos += INCREMENT;
+				if (parallel_mode == FALSE)
+				{
+					// MOVE THE CURSOR BACK UP IN RELATION TO NUMBER OF X AXIS COORDINATES
+					// MOVE THE CURSOR TO THE LEFT IN RELATION OF USED NEW LINES
+				}
 			}
 			i++;
 		}
