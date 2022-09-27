@@ -6,7 +6,7 @@
 #    By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/16 17:04:55 by aviholai          #+#    #+#              #
-#    Updated: 2022/09/23 16:40:54 by aviholai         ###   ########.fr        #
+#    Updated: 2022/09/27 16:02:09 by aviholai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ NAME			= fdf
 SRC				= \
 				main.c \
 				read.c \
-				extract.c \
+				extract_00.c \
+				extract_01.c \
 				utility.c \
 
 OBJ				= $(SRC:.c=.o)
