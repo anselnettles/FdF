@@ -6,48 +6,44 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/26 18:06:41 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/27 12:52:28 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 #include <stdio.h>
 
-//int	keypress(int key, void *param)
-//{
-//	t_vars	*vars;
-//
-//	vars = (t_vars *)param;
-//	if (key == 13)
-//	{	
-//		vars->y -= 1;
-//		ft_putchar('W');
-//		mlx_pixel_put(vars->mlx, vars->win, vars->x, vars->y, WHITE);
-//	}
-//	if (key == 0)
-//	{
-//		vars->x -= 1;
-//		aft_putchar('A');
-//		mlx_pixel_put(vars->mlx, vars->win, vars->x, vars->y, WHITE);
-//	}
-//	if (key == 1)
-//	{
-//		vars->y += 1;
-//		ft_putchar('S');
-//		mlx_pixel_put(vars->mlx, vars->win, vars->x, vars->y, WHITE);
-//	}
-//	if (key == 2)
-//	{
-//		vars->x += 1;
-//		ft_putchar('D');
-//		mlx_pixel_put(vars->mlx, vars->win, vars->x, vars->y, WHITE);
-//	}
-//	return (0);
-//}
+int	keypress(int key, void *param)
+{
+	t_vars	*vars;
+
+	vars = (t_vars *)param;
+	if (key == RETURN)
+	{
+		mlx_clear_window(vars->mlx, vars->win);
+		mlx_string_put(vars->mlx, vars->win, 30, 20, NETTLE,
+				"Parallel mode.");
+		return (PARALLEL_TRUE);
+	}
+	if (key == SHIFT)
+	{
+		mlx_clear_window(vars->mlx, vars->win);
+		mlx_string_put(vars->mlx, vars->win, 30, 20, NETTLE,
+				"Isometric mode.");
+		return (PARALLEL_FALSE);
+	}
+	if (key == ESC)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		exit (0);
+	}
+	return (0);
+}
 
 void	isometric(int x_pos, int y_pos, int color)
 {
-	
+	t_vars *vars;
+
 	mlx_pixel_put(vars->mlx, vars->win, x_pos, y_pos, color);
 	y_pos =+ INCREMENT;
 }
@@ -135,7 +131,7 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 		"Welcome to my magical graphic box.");
 	x_pos = START_POSITION;
 	y_pos = START_POSITION;
-	parallel_mode = TRUE;
+	parallel_mode = PARALLEL_TRUE;
 	color = 0;
 	while (ret)
 	{
@@ -162,35 +158,18 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 				}
 				depth = depth_parser(coordinate);
 				color = color_parser(coordinate, depth);
-				if (parallel_mode == TRUE)
+				if (parallel_mode == PARALLEL_TRUE)
 					mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos, color);
-				else if
+				else
 					isometric(x_pos, y_pos, color);
 				x_pos += INCREMENT;
 			}
-				//if (buf[i + 1] != '\n' && buf[i + 2] != '\n')
-				//{
-				//	i2 = 1;
-				//	while (i2 <= (INCREMENT - 1))
-				//	{
-				//		mlx_pixel_put(vars.mlx, vars.win, x_pos + i2, y_pos, color);
-				//		i2++;
-				//	}
-				//}
-				//if (total_newlines > 1)
-				//	i2 = 1;
-				//	while (i2 <= (INCREMENT - 1))
-				//	{
-				//		mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos + i2, color);
-				//		i2++;
-				//	}
-		//	}
 			if (buf[i] == '\n')
 			{
 				total_newlines--;
 				x_pos = START_POSITION;
 				y_pos += INCREMENT;
-				if (parallel_mode == FALSE)
+				if (parallel_mode == PARALLEL_FALSE)
 				{
 					// MOVE THE CURSOR BACK UP IN RELATION TO NUMBER OF X AXIS COORDINATES
 					// MOVE THE CURSOR TO THE LEFT IN RELATION OF USED NEW LINES
@@ -200,6 +179,7 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 		}
 		ret = read(fd, buf, MAX_READ);
 	}
+	parallel_mode = mlx_key_hook(vars.win, keypress, (void *)&vars);
 	mlx_loop(vars.mlx);
 	return(0);
 }
