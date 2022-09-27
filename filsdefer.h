@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/27 12:17:18 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:05:37 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define ESC 53
 # define RETURN 36
 # define SHIFT 56
+# define TAB 48
 
 // Definitions for color constants.
 # define NETTLE 0xAAD4B5
@@ -45,6 +46,7 @@ typedef struct	s_vars {
 	void	*mlx;
 	void	*win;
 	ssize_t	newline_count;
+	int		parallel_mode;
 }	t_vars;
 
 // Error types
