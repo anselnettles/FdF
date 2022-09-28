@@ -6,12 +6,22 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/27 16:23:58 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/28 12:29:39 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 #include <stdio.h>
+
+/*
+**	Function 'keypress()' is alert and awaiting for a press of a key and
+**	manipulates the 'MiniLibX' graphic window accordingly.
+**	MAC key 'TAB' toggles between "parallel" and "isometric" views (see
+**	'extract_01.c' for the projections).
+**	MAC key 'ESC' shuts down the graphic window and exits the program.
+**	The function stays awake and observant for it's connected through the
+**	'MLX' keyhook function. See 'mlx_key_hook()' in 'extract_file()', below.
+*/
 
 int	keypress(int key, void *param)
 {
@@ -23,16 +33,14 @@ int	keypress(int key, void *param)
 		mlx_clear_window(vars->mlx, vars->win);
 		if (vars->parallel_mode == PARALLEL_FALSE)
 		{
-			mlx_string_put(vars->mlx, vars->win, 30, 20, NETTLE,
-					"Parallel mode.");
 			vars->parallel_mode = PARALLEL_TRUE;
+			//parallel_projection(param);
 			return (0);
 		}
 		if (vars->parallel_mode == PARALLEL_TRUE)
 		{
-			mlx_string_put(vars->mlx, vars->win, 30, 20, NETTLE,
-					"Isometric mode.");
 			vars->parallel_mode = PARALLEL_FALSE;
+			isometric_projection(param);
 			return (0);
 		}
 	}
@@ -44,14 +52,6 @@ int	keypress(int key, void *param)
 	return (0);
 }
 
-void	isometric(int x_pos, int y_pos, int color)
-{
-	t_vars *vars;
-
-	mlx_pixel_put(vars->mlx, vars->win, x_pos, y_pos, color);
-	y_pos =+ INCREMENT;
-}
-
 static int	color_parser(char *coordinate, int depth)
 {
 	int		i;
@@ -59,7 +59,7 @@ static int	color_parser(char *coordinate, int depth)
 	char	*new_string;
 	int		color;
 
-	color = 0xcc0000;
+	color = RED;
 	i = 0;
 	while (coordinate[i])
 	{
@@ -111,7 +111,6 @@ static int	depth_parser(char *coordinate)
 int	extract_file(const char *file, char *buf, int total_newlines)
 {
 	int		fd;
-	ssize_t	ret;
 	t_vars	vars;
 	int		i;
 	int		i2;
@@ -125,7 +124,7 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 	printf("\n\nWelcome to extract_file(). \nSo, total_newlines is %d\n",
 			total_newlines);
 	fd = open(file, O_RDONLY);
-	ret = read(fd, buf, MAX_READ);
+	vars.ret = read(fd, buf, MAX_READ);
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, 640, 480,
 			"Filsdefer | github.com/anselnettles");
@@ -134,7 +133,8 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 	x_pos = START_POSITION;
 	y_pos = START_POSITION;
 	vars.parallel_mode = PARALLEL_TRUE;
-	color = 0;
+	vars.color = RED;
+	/*
 	while (ret && (vars.parallel_mode == PARALLEL_TRUE || vars.parallel_mode == PARALLEL_FALSE))
 	{
 		buf[ret] = '\0';
@@ -162,8 +162,8 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 				color = color_parser(coordinate, depth);
 				if (vars.parallel_mode == PARALLEL_TRUE)
 					mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos, color);
-				if (vars.parallel_mode == PARALLEL_FALSE)
-					isometric(x_pos, y_pos, color);
+				//if (vars.parallel_mode == PARALLEL_FALSE)
+					//isometric(x_pos, y_pos, color);
 				x_pos += INCREMENT;
 			}
 			if (buf[i] == '\n')
@@ -181,6 +181,7 @@ int	extract_file(const char *file, char *buf, int total_newlines)
 		}
 		ret = read(fd, buf, MAX_READ);
 	}
+	*/
 	mlx_key_hook(vars.win, keypress, (void *)&vars);
 	mlx_loop(vars.mlx);
 	return(0);

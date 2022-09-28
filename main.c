@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:30:38 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/23 16:35:48 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/28 12:16:27 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ int	main(int argc, char **argv)
 	static char		buf[MAX_READ + 1];
 	int fd = 0;
 	size_t ret = 0;
+	t_vars	vars;
 
+	vars.buf = buf;
 	if (argc != 2)
 		return (error(BAD_ARGS));
 	total_newlines = validate_file(argv[1], &buf[0]);
