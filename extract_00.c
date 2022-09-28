@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/28 12:29:39 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/28 15:44:52 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,164 +25,70 @@
 
 int	keypress(int key, void *param)
 {
-	t_vars	*vars;
+	t_vars	*v;
 
-	vars = (t_vars *)param;
+	v = (t_vars *)param;
 	if (key == TAB)
 	{
-		mlx_clear_window(vars->mlx, vars->win);
-		if (vars->parallel_mode == PARALLEL_FALSE)
+		mlx_clear_window(v->mlx, v->win);
+		if (v->parallel_mode == PARALLEL_FALSE)
 		{
-			vars->parallel_mode = PARALLEL_TRUE;
+			v->parallel_mode = PARALLEL_TRUE;
 			//parallel_projection(param);
 			return (0);
 		}
-		if (vars->parallel_mode == PARALLEL_TRUE)
+		if (v->parallel_mode == PARALLEL_TRUE)
 		{
-			vars->parallel_mode = PARALLEL_FALSE;
+			v->parallel_mode = PARALLEL_FALSE;
 			isometric_projection(param);
 			return (0);
 		}
 	}
 	if (key == ESC)
 	{
-		mlx_destroy_window(vars->mlx, vars->win);
+		mlx_destroy_window(v->mlx, v->win);
 		exit (0);
 	}
 	return (0);
 }
 
-static int	color_parser(char *coordinate, int depth)
+static int	initialization(t_vars *v)
 {
-	int		i;
-	int		i2;
-	char	*new_string;
-	int		color;
-
-	color = RED;
-	i = 0;
-	while (coordinate[i])
-	{
-		if (coordinate[i] == ',')
-		{
-			i++;
-			i2 = 0;
-			new_string = (char *)malloc(sizeof(char)*(ft_strlen(coordinate) + 1));
-			while (coordinate[i])
-			{
-				new_string[i2] = coordinate[i];
-				i++;
-				i2++;
-			}
-			new_string[i2] = '\0';
-			//FIGURE THIS OUT LATER.
-			printf(" | HEX color: %s!", new_string);
-			return (color = ft_atoi(new_string));
-		}
-		i++;
-	}
-	printf(" | Reg color.");
-	if (depth < 5)
-		return (color = 0xffbe00);
-	else
-		return (color = 0xffffff);
-}
-
-static int	depth_parser(char *coordinate)
-{
-	int		i;
-	int		depth;
-	char	*new_string;
-
-	i = 0;
-	new_string = (char *)malloc(sizeof(char)*(ft_strlen(coordinate) + 1));
-	while (coordinate[i] != ',' && coordinate[i])
-	{
-		new_string[i] = coordinate[i];
-		i++;
-	}
-	new_string[i] = '\0';
-	printf(" | String: %s", new_string);
-	depth = ft_atoi(new_string);
-	printf(" | Atoi: %d", depth);
-	return (depth);
+	v->win = mlx_new_window(v->mlx, 640, 480,
+			"Filsdefer | github.com/anselnettles");
+	mlx_string_put(v->mlx, v->win, 30, 20, NETTLE0,
+		"Filsdefer |  \\fil ade fer\\ | wireframe");
+	mlx_string_put(v->mlx, v->win, 60, 45, NIGHT,
+		"A skeletal three-dimensional model in which");
+	mlx_string_put(v->mlx, v->win, 60, 65, NIGHT,
+		"only lines and vertices are represented.");
+	mlx_string_put(v->mlx, v->win, 30, 120, ORANGE,
+		"Press TAB to toggle projection.");
+	mlx_string_put(v->mlx, v->win, 30, 160, ORANGE,
+		"Press ESC to quit.");
+	mlx_string_put(v->mlx, v->win, 240, 425, NETTLE0,
+		"Ansel Nettles | github.com/anselnettles");
+	mlx_string_put(v->mlx, v->win, 240, 445, NIGHT,
+		"\" C o d e - ' n - S w o r d \"");
+	return (0);
 }
 
 int	extract_file(const char *file, char *buf, int total_newlines)
 {
-	int		fd;
-	t_vars	vars;
-	int		i;
-	int		i2;
-	int		i3;
-	char	*coordinate;
-	int		x_pos;
-	int		y_pos;
-	int		depth;
-	int		color;
+	t_vars	v;
 
-	printf("\n\nWelcome to extract_file(). \nSo, total_newlines is %d\n",
-			total_newlines);
-	fd = open(file, O_RDONLY);
-	vars.ret = read(fd, buf, MAX_READ);
-	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 640, 480,
-			"Filsdefer | github.com/anselnettles");
-	mlx_string_put(vars.mlx, vars.win, 30, 20, NETTLE,
-			"Filsdefer | \\fil ade fer\\ Press TAB to switch projection.");
-	x_pos = START_POSITION;
-	y_pos = START_POSITION;
-	vars.parallel_mode = PARALLEL_TRUE;
-	vars.color = RED;
-	/*
-	while (ret && (vars.parallel_mode == PARALLEL_TRUE || vars.parallel_mode == PARALLEL_FALSE))
-	{
-		buf[ret] = '\0';
-		i = 0;
-		while (i < MAX_READ)
-		{
-			printf("\n| Buf: %d | Char: %c", i, buf[i]);
-			//IF BUF INDEX IS AT A COORDINATE:
-			if (buf[i] != ' ' && buf[i] != '\n' && buf[i] != '\t' &&  buf[i])
-			{
-				coordinate = (char *)malloc(sizeof(char)*(ft_strlen(buf) + 1));
-				i3 = 0;
-				while (buf[i] != ' ' && buf[i] != '\n' && buf[i])
-				{
-					coordinate[i3] = buf[i];
-					i++;
-					i3++;
-				}
-				while (coordinate[i3])
-				{
-					coordinate[i3] = '\0';
-					i3++;
-				}
-				depth = depth_parser(coordinate);
-				color = color_parser(coordinate, depth);
-				if (vars.parallel_mode == PARALLEL_TRUE)
-					mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos, color);
-				//if (vars.parallel_mode == PARALLEL_FALSE)
-					//isometric(x_pos, y_pos, color);
-				x_pos += INCREMENT;
-			}
-			if (buf[i] == '\n')
-			{
-				total_newlines--;
-				x_pos = START_POSITION;
-				y_pos += INCREMENT;
-				if (vars.parallel_mode == PARALLEL_FALSE)
-				{
-					// MOVE THE CURSOR BACK UP IN RELATION TO NUMBER OF X AXIS COORDINATES
-					// MOVE THE CURSOR TO THE LEFT IN RELATION OF USED NEW LINES
-				}
-			}
-			i++;
-		}
-		ret = read(fd, buf, MAX_READ);
-	}
-	*/
-	mlx_key_hook(vars.win, keypress, (void *)&vars);
-	mlx_loop(vars.mlx);
-	return(0);
+	//printf("\n\nWelcome to extract_file(). \nSo, total_newlines is %d\n",
+	//		total_newlines);
+	v.buf = buf;
+	v.fd = open(file, O_RDONLY);
+	v.ret = read(v.fd, v.buf, MAX_READ);
+	v.mlx = mlx_init();
+	if (initialization(&v) != 0)
+		return (-1);
+	v.x_pos = START_POSITION;
+	v.y_pos = START_POSITION;
+	v.parallel_mode = PARALLEL_TRUE;
+	mlx_key_hook(v.win, keypress, (void *)&v);
+	mlx_loop(v.mlx);
+	return (0);
 }

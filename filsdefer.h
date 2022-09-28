@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/28 12:11:16 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/28 15:43:56 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@
 
 // Definitions for color constants.
 # define RED 0xCC0000
-# define NETTLE 0xAAD4B5
+# define NETTLE0 0xAAD4B5
+# define NIGHT 0x204855
+# define ORANGE 0xE7C9B1
 # define WHITE 0xFFFFFF
 
 # include <unistd.h>
@@ -49,6 +51,7 @@ typedef struct	s_vars {
 	int				x_pos;
 	int				color;
 	int				depth;
+	int				fd;
 }	t_vars;
 
 // Error types
