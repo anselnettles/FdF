@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:30:38 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/28 15:08:59 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:38:29 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	error(int errorcode)
 
 int	main(int argc, char **argv)
 {
-	int			total_newlines;
+	t_vars	v;
 	static char	buf[MAX_READ + 1];
 	int			fd;
 	size_t		ret;
@@ -41,10 +41,9 @@ int	main(int argc, char **argv)
 	ret = 0;
 	if (argc != 2)
 		return (error(BAD_ARGS));
-	total_newlines = validate_file(argv[1], &buf[0]);
-	if (total_newlines== -1)
+	if (validate_file(argv[1], &buf[0], &v) == -1)
 		return (-1);
-	if (extract_file(argv[1], &buf[0], total_newlines) == -1)
+	if (extract_file(argv[1], &buf[0], &v) == -1)
 		return (-1);
 	return (0);
 }

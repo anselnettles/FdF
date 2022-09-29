@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/29 16:56:25 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:53:04 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,20 @@ static int	initialization(t_vars *v)
 	return (0);
 }
 
-int	extract_file(char *file, char *buf, int total_newlines)
+int	extract_file(char *file, char *buf, t_vars *v)
 {
-	t_vars	v;
-
 	//printf("\n\nWelcome to extract_file(). \nSo, total_newlines is %d\n",
 	//		total_newlines);
 	//v.total_newlines = total_newlines;
-	v.file = file;
-	v.buf = buf;
+	v->file = file;
+	v->buf = buf;
 	//v.fd = open(file, O_RDONLY);
 	//v.ret = read(v.fd, v.buf, MAX_READ);
-	v.mlx = mlx_init();
-	if (initialization(&v) != 0)
+	v->mlx = mlx_init();
+	if (initialization(v) != 0)
 		return (-1);
-	v.parallel_mode = PARALLEL_FALSE;
-	mlx_key_hook(v.win, keypress, (void *)&v);
-	mlx_loop(v.mlx);
+	v->parallel_mode = PARALLEL_FALSE;
+	mlx_key_hook(v->win, keypress, (void *)v);
+	mlx_loop(v->mlx);
 	return (0);
 }

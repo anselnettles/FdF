@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#   Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/16 17:04:55 by aviholai          #+#    #+#              #
-#    Updated: 2022/09/29 15:10:11 by aviholai         ###   ########.fr        #
+#    Updated: 2022/09/29 18:20:12 by aviholai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRC				= \
 
 OBJ				= $(SRC:.c=.o)
 
-#CFLAGS			= -Wall -Wextra -Werror -Wconversion
+CFLAGS			= -Wall -Wextra -Werror -Wconversion
 
 LIB				= /usr/local/lib/ -lmlx -framework OpenGL -framework Appkit
 
@@ -50,7 +50,7 @@ $(NAME) : $(OBJ)
 	@printf "	$(PL)		${G}| following source files:				${PR}"
 	@printf "$(LISTSRC)"
 	@printf "	${PL}									${PR}"
-	@cc -I /usr/local/include ${OBJ} -L ${LIB} -o ${NAME}
+	@cc ${CLAGS} -I /usr/local/include ${OBJ} -L ${LIB} -o ${NAME}
 	@printf "	${PL}									${PR}"
 	@printf "	${PL}	${O}Ｆｉｎｉｓｈｅｄ ｂｉｎａｒｙ.					${PR}"
 	@printf "	${PL}		${G}| Executable '$(NAME)' compiled with 'cc'.			${PR}"

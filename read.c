@@ -6,21 +6,20 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 18:08:59 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/28 12:19:35 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:41:51 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 #include <stdio.h>
 
-static int	symbol_validation(char *buf, size_t ret)
+static int	symbol_validation(char *buf, ssize_t ret, t_vars *v)
 {
-	size_t		total_newlines;
-	size_t		i;
+	ssize_t		i;
 	static int	j = 0;
 
 	i = 0;
-	total_newlines = 0;
+	v->total_newlines = 0;
 	printf("The length of 'ret' is %zu.\n", ret);
 	while (i < ret)
 	{
@@ -45,22 +44,20 @@ static int	symbol_validation(char *buf, size_t ret)
 		}
 		if (buf[i] == '\n')
 		{
-			total_newlines++;
-			printf("Found newline %zu. ", total_newlines);
+			v->total_newlines++;
+			printf("Found newline %d. ", v->total_newlines);
 		}
 		i++;
 		j++;
 	}
-	return (total_newlines);
+	return (0);
 }
 
-int	validate_file(const char *file, char *buf)
+int	validate_file(const char *file, char *buf, t_vars *v)
 {
 	int				fd;
 	ssize_t			ret;
-	static ssize_t	total_newlines;
 
-	total_newlines = 0;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (error(OPEN_FAIL));
@@ -72,14 +69,13 @@ int	validate_file(const char *file, char *buf)
 	while (ret > 0)
 	{
 		buf[ret] = '\0';
-		total_newlines += symbol_validation(buf, ret);
+		symbol_validation(buf, ret, v);
 		ret = read(fd, buf, MAX_READ);
 	}
 	//I STILL NEED A CHECK FOR THAT LAST COORDINATE IN PYRAMIDE.
 	if (close(fd) == -1)
 		return (error(CLOSE_FAIL));
-	printf("Total newlines: %zu. ", total_newlines);
-	if (total_newlines == 0)
+	if (v->total_newlines == 0)
 		return (error(INVALID_CHARS));
-	return (total_newlines);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/29 16:49:41 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:58:20 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FILSDEFER_H
 
 // Size definitions.
-# define MAX_READ 500
+# define MAX_READ 40000
 # define START_POSITION 60
 # define HALF_LENGTH 320
 # define INCREMENT 40
@@ -41,7 +41,7 @@
 # include <math.h>
 # include "mlx.h"
 
-typedef struct	s_vars {
+typedef struct s_vars {
 	void			*mlx;
 	void			*win;
 	char			*file;
@@ -71,9 +71,8 @@ typedef enum e_error
 	NO_PRINT,
 }	t_error;
 
-int		validate_file(const char *file, char *buf);
-int		extract_file(char *file, char *buf, int total_coordinates);
-//int		parallel_projection(t_vars *v);
+int		validate_file(const char *file, char *buf, t_vars *v);
+int		extract_file(char *file, char *buf, t_vars *v);
 int		projection(t_vars *v);
 int		draw_pixel(t_vars *v, char *coordinate);
 int		color_parser(char *coordinate, int depth);

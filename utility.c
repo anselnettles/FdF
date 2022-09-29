@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 16:29:43 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/23 16:35:23 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/29 17:59:30 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,3 @@ size_t	ft_strlen(const char *s)
 		len++;
 	return (len);
 }
-

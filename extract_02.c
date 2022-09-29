@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 14:46:46 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/29 14:47:43 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:12:16 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	color_parser(char *coordinate, int depth)
 {
 	int		i;
 	int		i2;
-	char	*new_string;
+	char	*string;
 	int		color;
 
 	color = RED;
@@ -28,17 +28,19 @@ int	color_parser(char *coordinate, int depth)
 		{
 			i++;
 			i2 = 0;
-			new_string = (char *)malloc(sizeof(char)*(ft_strlen(coordinate) + 1));
+			string = (char *)malloc(sizeof(char) * (ft_strlen(coordinate) + 1));
+			if (string == NULL)
+				return (-1);
 			while (coordinate[i])
 			{
-				new_string[i2] = coordinate[i];
+				string[i2] = coordinate[i];
 				i++;
 				i2++;
 			}
-			new_string[i2] = '\0';
+			string[i2] = '\0';
 			//FIGURE THIS OUT LATER.
-			printf(" | HEX color: %s!", new_string);
-			return (color = ft_atoi(new_string));
+			printf(" | HEX color: %s!", string);
+			return (color = ft_atoi(string));
 		}
 		i++;
 	}
@@ -56,7 +58,9 @@ int	depth_parser(char *coordinate)
 	char	*new_string;
 
 	i = 0;
-	new_string = (char *)malloc(sizeof(char)*(ft_strlen(coordinate) + 1));
+	new_string = (char *)malloc(sizeof(char) * (ft_strlen(coordinate) + 1));
+	if (new_string == NULL)
+		return (-1);
 	while (coordinate[i] != ',' && coordinate[i])
 	{
 		new_string[i] = coordinate[i];
