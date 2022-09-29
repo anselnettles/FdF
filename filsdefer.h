@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/29 14:02:50 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:49:41 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ typedef struct	s_vars {
 	int				total_newlines;
 	ssize_t			newline_count;
 	int				parallel_mode;
+	int				i;
+	int				nl;
 	int				y_pos;
 	int				x_pos;
 	int				color;
@@ -71,8 +73,11 @@ typedef enum e_error
 
 int		validate_file(const char *file, char *buf);
 int		extract_file(char *file, char *buf, int total_coordinates);
-int		parallel_projection(void *param);
-int		isometric_projection(void *param);
+//int		parallel_projection(t_vars *v);
+int		projection(t_vars *v);
+int		draw_pixel(t_vars *v, char *coordinate);
+int		color_parser(char *coordinate, int depth);
+int		depth_parser(char *coordinate);
 int		error(int errorcode);
 int		ft_atoi(const char *str);
 void	ft_putchar(char c);

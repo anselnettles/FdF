@@ -6,7 +6,7 @@
 #    By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/16 17:04:55 by aviholai          #+#    #+#              #
-#    Updated: 2022/09/27 16:02:09 by aviholai         ###   ########.fr        #
+#    Updated: 2022/09/29 15:10:11 by aviholai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC				= \
 				read.c \
 				extract_00.c \
 				extract_01.c \
+				extract_02.c \
 				utility.c \
 
 OBJ				= $(SRC:.c=.o)

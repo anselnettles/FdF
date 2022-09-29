@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/29 13:24:41 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:56:25 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,10 @@ int	keypress(int key, void *param)
 	{
 		mlx_clear_window(v->mlx, v->win);
 		if (v->parallel_mode == PARALLEL_FALSE)
-		{
 			v->parallel_mode = PARALLEL_TRUE;
-			parallel_projection(param);
-			return (0);
-		}
-		if (v->parallel_mode == PARALLEL_TRUE)
-		{
+		else if (v->parallel_mode == PARALLEL_TRUE)
 			v->parallel_mode = PARALLEL_FALSE;
-			isometric_projection(param);
-			return (0);
-		}
+		projection(v);
 	}
 	if (key == ESC)
 	{
