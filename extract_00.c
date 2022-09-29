@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/28 15:44:52 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/29 13:24:41 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	keypress(int key, void *param)
 		if (v->parallel_mode == PARALLEL_FALSE)
 		{
 			v->parallel_mode = PARALLEL_TRUE;
-			//parallel_projection(param);
+			parallel_projection(param);
 			return (0);
 		}
 		if (v->parallel_mode == PARALLEL_TRUE)
@@ -73,21 +73,21 @@ static int	initialization(t_vars *v)
 	return (0);
 }
 
-int	extract_file(const char *file, char *buf, int total_newlines)
+int	extract_file(char *file, char *buf, int total_newlines)
 {
 	t_vars	v;
 
 	//printf("\n\nWelcome to extract_file(). \nSo, total_newlines is %d\n",
 	//		total_newlines);
+	//v.total_newlines = total_newlines;
+	v.file = file;
 	v.buf = buf;
-	v.fd = open(file, O_RDONLY);
-	v.ret = read(v.fd, v.buf, MAX_READ);
+	//v.fd = open(file, O_RDONLY);
+	//v.ret = read(v.fd, v.buf, MAX_READ);
 	v.mlx = mlx_init();
 	if (initialization(&v) != 0)
 		return (-1);
-	v.x_pos = START_POSITION;
-	v.y_pos = START_POSITION;
-	v.parallel_mode = PARALLEL_TRUE;
+	v.parallel_mode = PARALLEL_FALSE;
 	mlx_key_hook(v.win, keypress, (void *)&v);
 	mlx_loop(v.mlx);
 	return (0);

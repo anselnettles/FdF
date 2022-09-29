@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/28 16:32:56 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:06:42 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,128 +69,138 @@ static int	depth_parser(char *coordinate)
 	return (depth);
 }
 
-/*
-int	parallel_projection()
+static int	open_read_projection(void *param)
+{
+	t_vars *v;
+	v = (t_vars *)param;
+
+	if ((v->fd = open(v->file, O_RDONLY)) == -1)
+		return (error(OPEN_FAIL));
+	if ((v->ret = read(v->fd, v->buf, MAX_READ)) == -1)
+		return (error(READ_FAIL));
+	v->y_pos = START_POSITION;
+	if (v->parallel_mode == PARALLEL_TRUE)
+	{
+		v->x_pos = START_POSITION;
+		mlx_string_put(v->mlx, v->win, 60, 20, NIGHT,
+			"[ P a r a l l e l ]  Projection Mode.");
+	}
+	if (v->parallel_mode == PARALLEL_FALSE)
+	{
+		v->x_pos = HALF_LENGTH;
+		mlx_string_put(v->mlx, v->win, 60, 20, NIGHT,
+			"[ I s o m e t r i c ]  Projection Mode.");
+	}
+	return (0);
+}
+
+
+int	parallel_projection(void *param)
 {
 	int		i;
 	int		i2;
-	int		i3;
-	char	*coordinate;
-	int		x_pos;
-	int		y_pos;
-	int		depth;
-	int		color;
+	char	*crdnt;
+	t_vars	*v;
 
-	while (ret && (vars.parallel_mode == PARALLEL_TRUE || vars.parallel_mode == PARALLEL_FALSE))
+	v = (t_vars *)param;
+	open_read_projection(param);
+	while (v->ret)
 	{
-		buf[ret] = '\0';
+		v->buf[v->ret] = '\0';
 		i = 0;
 		while (i < MAX_READ)
 		{
-			printf("\n| Buf: %d | Char: %c", i, buf[i]);
+			printf("\n| Buf: %d | Char: %c", i, v->buf[i]);
 			//IF BUF INDEX IS AT A COORDINATE:
-			if (buf[i] != ' ' && buf[i] != '\n' && buf[i] != '\t' &&  buf[i])
+			if (v->buf[i] != ' ' && v->buf[i] != '\n'
+					&& v->buf[i] != '\t' && v->buf[i])
 			{
-				coordinate = (char *)malloc(sizeof(char)*(ft_strlen(buf) + 1));
-				i3 = 0;
-				while (buf[i] != ' ' && buf[i] != '\n' && buf[i])
+				crdnt = (char *)malloc(sizeof(char)*(ft_strlen(v->buf) + 1));
+				i2 = 0;
+				while (v->buf[i] != ' ' && v->buf[i] != '\n' && v->buf[i])
 				{
-					coordinate[i3] = buf[i];
+					crdnt[i2] = v->buf[i];
 					i++;
-					i3++;
+					i2++;
 				}
-				while (coordinate[i3])
+				while (crdnt[i2])
 				{
-					coordinate[i3] = '\0';
-					i3++;
+					crdnt[i2] = '\0';
+					i2++;
 				}
-				depth = depth_parser(coordinate);
-				color = color_parser(coordinate, depth);
-				if (vars.parallel_mode == PARALLEL_TRUE)
-					mlx_pixel_put(vars.mlx, vars.win, x_pos, y_pos, color);
-				if (vars.parallel_mode == PARALLEL_FALSE)
-					isometric(x_pos, y_pos, color);
-				x_pos += INCREMENT;
+				v->depth = depth_parser(crdnt);
+				v->color = color_parser(crdnt, v->depth);
+				mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos, v->color);
+				v->x_pos += INCREMENT;
 			}
-			if (buf[i] == '\n')
+			if (v->buf[i] == '\n')
 			{
-				total_newlines--;
-				x_pos = START_POSITION;
-				y_pos += INCREMENT;
-				if (vars.parallel_mode == PARALLEL_FALSE)
-				{
-					// MOVE THE CURSOR BACK UP IN RELATION TO NUMBER OF X AXIS COORDINATES
-					// MOVE THE CURSOR TO THE LEFT IN RELATION OF USED NEW LINES
-				}
+			//	v->total_newlines--;
+				v->x_pos = START_POSITION;
+				v->y_pos += INCREMENT;
 			}
 			i++;
 		}
-		ret = read(fd, buf, MAX_READ);
+		v->y_pos += INCREMENT;
+		v->ret = read(v->fd, v->buf, MAX_READ);
 	}
+	if (close(v->fd) == -1)
+		return(error(CLOSE_FAIL));
+	return (0);
 }
-*/
+
 int	isometric_projection(void *param)
 {
 	int		i;
 	int		i2;
 	int		i3;
-	char	*coordinate;
+	char	*crdnt;
 	t_vars	*v;
-	i = 0;
 
 	v = (t_vars *)param;
+	open_read_projection(param);
 	while (v->ret)
 	{
-		mlx_pixel_put(v->mlx, v->win, v->x_pos + 2, v->y_pos + i, NETTLE0);
-		printf("\n| Buf: %d | Char: %c", i, v->buf[i]);
-		i++;
-		v->ret--;
+		v->buf[v->ret] = '\0';
+		i = 0;
+		i3 = 0;
+		while (i < MAX_READ)
+		{
+			printf("\n| Buf: %d | Char: %c", i, v->buf[i]);
+			if (v->buf[i] != ' ' && v->buf[i] != '\n'
+					&& v->buf[i] != '\t' && v->buf[i])
+			{
+				crdnt = (char *)malloc(sizeof(char)*(ft_strlen(v->buf) + 1));
+				i2 = 0;
+				while (v->buf[i] != ' ' && v->buf[i] != '\n' && v->buf[i])
+				{
+					crdnt[i2] = v->buf[i];
+					i++;
+					i2++;
+				}
+				while (crdnt[i2])
+				{
+					crdnt[i2] = '\0';
+					i2++;
+				}
+				v->depth = depth_parser(crdnt);
+				v->color = color_parser(crdnt, v->depth);
+				mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos, v->color);
+				v->x_pos += (INCREMENT / 2); // AFTER EVERY PIXL GO ONE RIGHT
+				v->y_pos += (INCREMENT / 2); // AFTER EVERY PIXL GO ONE DOWN
+			}
+			if (v->buf[i] == '\n')
+			{
+				i3++;
+				v->x_pos = HALF_LENGTH - ((INCREMENT / 2) * i3);
+				v->y_pos = START_POSITION + ((INCREMENT / 2) * i3);
+			}
+			i++;
+		}
+		v->y_pos += INCREMENT;
+		v->ret = read(v->fd, v->buf, MAX_READ);
 	}
-
-		//buf[vars.ret] = '\0';
-	//	i = 0;
-	//	while (i < MAX_READ)
-	//	{
-	//		printf("\n| Buf: %d | Char: %c", i, buf[i]);
-	//		//IF BUF INDEX IS AT A COORDINATE:
-	//		if (buf[i] != ' ' && buf[i] != '\n' && buf[i] != '\t' &&  buf[i])
-	//		{
-	//			coordinate = (char *)malloc(sizeof(char)*(ft_strlen(buf) + 1));
-	//			i3 = 0;
-	//			while (buf[i] != ' ' && buf[i] != '\n' && buf[i])
-	//			{
-	//				coordinate[i3] = buf[i];
-	//				i++;
-	//				i3++;
-	//			}
-	//			while (coordinate[i3])
-	//			{
-	//				coordinate[i3] = '\0';
-	//				i3++;
-	//			}
-	//			depth = depth_parser(coordinate);
-	//			color = color_parser(coordinate, depth);
-	//			if (vars.parallel_mode == PARALLEL_TRUE)
-	//				mlx_pixel_put(vars->mlx, vars->win, vars->x_pos, vars->y_pos, RED);
-	//			if (vars.parallel_mode == PARALLEL_FALSE)
-	//				isometric(x_pos, y_pos, color);
-	//			x_pos += INCREMENT;
-	//		}
-	//		if (buf[i] == '\n')
-	//		{
-	//			total_newlines--;
-	//			x_pos = START_POSITION;
-	//			y_pos += INCREMENT;
-	//			if (vars.parallel_mode == PARALLEL_FALSE)
-	//			{
-	//				// MOVE THE CURSOR BACK UP IN RELATION TO NUMBER OF X AXIS COORDINATES
-	//				// MOVE THE CURSOR TO THE LEFT IN RELATION OF USED NEW LINES
-	//			}
-	//		}
-	//		i++;
-	//	}
-	//	vars->y_pos += INCREMENT;
-	//	vars.ret = read(fd, vars->buf, MAX_READ);
-	//}
+	if (close(v->fd) == -1)
+		return(error(CLOSE_FAIL));
 	return (0);
 }
