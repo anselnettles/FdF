@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/29 18:58:20 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:10:22 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@
 
 // Definitions for color constants.
 # define RED 0xCC0000
-# define NETTLE0 0xAAD4B5
+# define NETTLE 0xAAD4B5
 # define NIGHT 0x204855
+# define DAWN 0x2b6173
 # define ORANGE 0xE7C9B1
 # define WHITE 0xFFFFFF
 
@@ -57,6 +58,7 @@ typedef struct s_vars {
 	int				color;
 	int				depth;
 	int				fd;
+	char			*coordinate;
 }	t_vars;
 
 // Error types
@@ -74,7 +76,7 @@ typedef enum e_error
 int		validate_file(const char *file, char *buf, t_vars *v);
 int		extract_file(char *file, char *buf, t_vars *v);
 int		projection(t_vars *v);
-int		draw_pixel(t_vars *v, char *coordinate);
+int		draw_pixel(t_vars *v);
 int		color_parser(char *coordinate, int depth);
 int		depth_parser(char *coordinate);
 int		error(int errorcode);
