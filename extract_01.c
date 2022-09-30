@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/29 18:49:49 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/30 10:45:21 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 static int	open_read_projection(t_vars *v)
 {
-	if ((v->fd = open(v->file, O_RDONLY)) == -1)
+	v->fd = open(v->file, O_RDONLY);
+	if (v->fd == -1)
 		return (error(OPEN_FAIL));
-	if ((v->ret = read(v->fd, v->buf, MAX_READ)) == -1)
+	v->ret = read(v->fd, v->buf, MAX_READ);
+	if (v->ret == -1)
 		return (error(READ_FAIL));
 	v->y_pos = START_POSITION;
 	if (v->parallel_mode == PARALLEL_TRUE)
@@ -58,10 +60,10 @@ char	*write_coordinate(t_vars *v)
 	return (coordinate);
 }
 
-int	draw_pixel(t_vars *v, char *coordinate)
+int	draw_pixel(t_vars *v)
 {
-	v->depth = depth_parser(coordinate);
-	v->color = color_parser(coordinate, v->depth);
+	v->depth = depth_parser(v->coordinate);
+	v->color = color_parser(v->coordinate, v->depth);
 	if (v->parallel_mode == PARALLEL_TRUE)
 	{
 		mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos, v->color);
@@ -79,15 +81,14 @@ int	draw_pixel(t_vars *v, char *coordinate)
 
 static int	graphic_loop(t_vars *v)
 {
-	char	*coordinate;
-
 	printf("\n| Buf: %d | Char: %c", v->i, v->buf[v->i]);
 	if (v->buf[v->i] != ' ' && v->buf[v->i] != '\n'
 		&& v->buf[v->i] != '\t' && v->buf[v->i])
 	{
-		if ((coordinate = write_coordinate(v)) == NULL)
+		v->coordinate = write_coordinate(v);
+		if (v->coordinate == NULL)
 			return (-1);
-		if ((draw_pixel(v, coordinate)) == -1)
+		if (draw_pixel(v) == -1)
 			return (-1);
 	}
 	if (v->buf[v->i] == '\n')
@@ -122,7 +123,9 @@ int	projection(t_vars *v)
 				return (-1);
 		}
 		v->y_pos += INCREMENT;
-		v->ret = read(v->fd, v->buf, MAX_READ);
+		(v->ret = read(v->fd, v->buf, MAX_READ));
+		if (v->ret < 0)
+			return (READ_FAIL);
 	}
 	if (close(v->fd) == -1)
 		return (error(CLOSE_FAIL));

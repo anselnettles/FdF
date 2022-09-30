@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/29 18:53:04 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:04:25 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	initialization(t_vars *v)
 {
 	v->win = mlx_new_window(v->mlx, 640, 480,
 			"Filsdefer | github.com/anselnettles");
-	mlx_string_put(v->mlx, v->win, 30, 20, NETTLE0,
+	mlx_string_put(v->mlx, v->win, 30, 20, NETTLE,
 		"Filsdefer |  \\fil ade fer\\ | wireframe");
 	mlx_string_put(v->mlx, v->win, 60, 45, NIGHT,
 		"A skeletal three-dimensional model in which");
@@ -59,7 +59,7 @@ static int	initialization(t_vars *v)
 		"Press TAB to toggle projection.");
 	mlx_string_put(v->mlx, v->win, 30, 160, ORANGE,
 		"Press ESC to quit.");
-	mlx_string_put(v->mlx, v->win, 240, 425, NETTLE0,
+	mlx_string_put(v->mlx, v->win, 240, 425, NETTLE,
 		"Ansel Nettles | github.com/anselnettles");
 	mlx_string_put(v->mlx, v->win, 240, 445, NIGHT,
 		"\" C o d e - ' n - S w o r d \"");
