@@ -6,12 +6,36 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 14:46:46 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/29 18:12:16 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:13:35 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 #include <stdio.h>
+
+/*
+** A very bare color picker for different integer depth values.
+** For future, this could be developed further by going through the different
+** depth values before we're at the pixel drawing phase and comparing the
+** values and coming up with a spectrum scale and drawing each depth level
+** in unique color.
+*/
+
+static int	regular_color(int depth)
+{
+	int	color;
+
+	if (depth <= 0)
+		return (color = DAWN);
+	else if (depth >= 1 && depth <= 5)
+		return (color = NETTLE);
+	else if (depth >= 6 && depth <= 9)
+		return (color = ORANGE);
+	else if (depth > 9)
+		return (color = WHITE);
+	else
+		return (color = RED);
+}
 
 int	color_parser(char *coordinate, int depth)
 {
@@ -20,7 +44,6 @@ int	color_parser(char *coordinate, int depth)
 	char	*string;
 	int		color;
 
-	color = RED;
 	i = 0;
 	while (coordinate[i])
 	{
@@ -45,10 +68,7 @@ int	color_parser(char *coordinate, int depth)
 		i++;
 	}
 	printf(" | Reg color.");
-	if (depth < 5)
-		return (color = 0xffbe00);
-	else
-		return (color = 0xffffff);
+	return (color = regular_color(depth));
 }
 
 int	depth_parser(char *coordinate)
