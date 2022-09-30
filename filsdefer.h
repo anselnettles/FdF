@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/30 14:38:17 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/30 17:04:41 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_vars {
 	int				depth;
 	int				fd;
 	char			*coordinate;
+
 }	t_vars;
 
 // Error types
@@ -85,6 +86,9 @@ int		color_parser(char *coordinate, int depth);
 int		depth_parser(char *coordinate);
 int		error(int errorcode);
 int		ft_atoi(const char *str);
+char	*ft_itoa(int n);
 void	ft_putchar(char c);
+char	*ft_strcpy(char *dst, const char *src);
+char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 #endif
