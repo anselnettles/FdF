@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/30 11:10:22 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/30 14:38:17 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 # define FILSDEFER_H
 
 // Size definitions.
-# define MAX_READ 40000
+# define MAX_READ 500
 # define START_POSITION 60
 # define HALF_LENGTH 320
 # define INCREMENT 40
+# define ISOMETRIC_DEPTH 5
 # define PARALLEL_TRUE 1
 # define PARALLEL_FALSE 0
 
@@ -55,6 +56,8 @@ typedef struct s_vars {
 	int				nl;
 	int				y_pos;
 	int				x_pos;
+	int				prev_y;
+	int				prev_x;
 	int				color;
 	int				depth;
 	int				fd;
@@ -77,6 +80,7 @@ int		validate_file(const char *file, char *buf, t_vars *v);
 int		extract_file(char *file, char *buf, t_vars *v);
 int		projection(t_vars *v);
 int		draw_pixel(t_vars *v);
+int		draw_line(t_vars *v);
 int		color_parser(char *coordinate, int depth);
 int		depth_parser(char *coordinate);
 int		error(int errorcode);
