@@ -6,13 +6,50 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 16:29:43 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/29 17:59:30 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/09/30 16:29:40 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 
 #define MAXIMUM 9223372036854775807
+
+/*
+**	'Strjoin()' (string join) function concatenates together two strings,
+**	'*s1' and '*s2'. The new string should be properly memory allocated, ending
+**	with '\0'. Returns 'NULL' if allocation fails.
+**	Measures the length of both of the strings with 'strlen()' for allocation.
+**	Applies the 's1' string to the newly 'char' string 'str' one character at
+**	a time. Once finished, applies the 's2' string to the end.
+**	Finishes the last index slot with '\0' and returns the result.
+*/
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	int		i;
+	int		i2;
+	char	*str;
+
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	i = 0;
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (str == NULL)
+		return (NULL);
+	while (s1[i] != '\0')
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	i2 = 0;
+	while (s2[i2] != '\0')
+	{
+		str[i + i2] = s2[i2];
+		i2++;
+	}
+	str[i + i2] = '\0';
+	return (str);
+}
 
 /*
 **	'AtoI()' (ASCII to integer) converts the applied character number
@@ -57,6 +94,47 @@ int	ft_atoi(const char *str)
 			return (0);
 	}
 	return ((int)result * if_negative);
+}
+
+/*
+**	'ItoA()' (integer to ASCII) allocates memory and returns a string of
+**	characters, terminated with a '\0', that is the 'char' equivalent of the
+**	applied integer.
+**	If allocation fails, this function returns 'NULL' (line 37).
+**	If the applied integer is the furthest possible negative number from 0,
+**	it applies it to the function 'strcpy()' and returns it (line 39).
+**	In the other case of a negative number, saves the minus sign in place for
+**	'char' string '*str' and applies the rest of the number recursively,
+**	by applying the function 'strjoin()' (line 40)
+**	If the integer is found to be a positive number greather than 9 (or, a
+**	single digit number) applies a recursive loop (line 46)
+**	Finally, in the case of a positive single digit number, simply applies the
+**	the number to index and NULLs the end of string (line 48)
+*/
+
+char	*ft_itoa(int n)
+{
+	char	*str;
+
+	str = (char *)malloc(sizeof(char) * 2);
+	if (str == NULL)
+		return (NULL);
+	if (n == -2147483648)
+		return (ft_strcpy(str, "-2147483648"));
+	if (n < 0)
+	{
+		str[0] = '-';
+		str[1] = '\0';
+		str = ft_strjoin(str, ft_itoa(-n));
+	}
+	else if (n >= 10)
+		str = ft_strjoin(ft_itoa(n / 10), ft_itoa(n % 10));
+	else if (n < 10 && n >= 0)
+	{
+		str[0] = (char) n + '0';
+		str[1] = '\0';
+	}
+	return (str);
 }
 
 /*
