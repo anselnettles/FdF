@@ -6,14 +6,33 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:54:01 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/30 17:05:23 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/03 12:39:45 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 
-static int	draw_vertical()
+static int	draw_vertical(t_vars *v)
 {
+	if (v->parallel_mode == PARALLEL_TRUE)
+	{
+		int i;
+	
+		i = 0;
+		while (i != INCREMENT)
+		{
+			mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos - i, v->color);
+			i++;
+		}
+	}
+	if (v->parallel_mode == PARALLEL_FALSE)
+	{
+		//calculate bitch
+	//WHEN OFF, TAKE THE LOCATION WHERE WE'RE AT AND DRAW IT TO THE LOCATION
+	//OF A NEW VARIABLE WHERE YOU SAVED THE DEPTH INFORMATION FROM THE LAST ROW.
+	//IF THERE WAS NO DEPTH INFORMATION, THAT SHOULD MEAN THE DIRECTION IS
+	//STANDARD (topright?)
+	}
 	return (0);
 }
 
@@ -24,14 +43,12 @@ static int	draw_horizontal(t_vars *v)
 	float	f_prev_x;
 	float	f_prev_y;
 	float	step;
-	double	distance;
 
 	f_x_pos = v->x_pos;
 	f_y_pos = v->y_pos;
 	f_prev_x = v->prev_x;
 	f_prev_y = v->prev_y;
-	distance = INCREMENT / 1.5;
-	step = ((f_y_pos - f_prev_y) / (float)distance);
+	step = ((f_y_pos - f_prev_y) / ISOMETRIC_INCREMENT);
 	while (f_prev_x <= f_x_pos)
 	{
 		f_prev_x++;
@@ -45,7 +62,9 @@ static int	draw_horizontal(t_vars *v)
 
 int	draw_line(t_vars *v)
 {
-	draw_horizontal(v);
-	draw_vertical();
+	if ((v->prev_x != -1) && (v->prev_y != -1))
+		draw_horizontal(v);
+	if (v->nl != 0)
+		draw_vertical(v);
 	return (0);
 }

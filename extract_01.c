@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/30 17:04:20 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/03 14:49:05 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ int	draw_pixel(t_vars *v)
 	if (v->parallel_mode == PARALLEL_TRUE)
 	{
 		mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos, v->color);
-		if ((v->prev_x != -1) || (v->prev_y != -1))
-				draw_line(v);
+		draw_line(v);
 		v->prev_x = v->x_pos;
 		v->prev_y = v->y_pos;
 		v->x_pos += (INCREMENT);
@@ -79,12 +78,11 @@ int	draw_pixel(t_vars *v)
 	{
 		v->y_pos += ((v->depth * ISOMETRIC_DEPTH) * -1);
 		mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos, v->color);
-		if ((v->prev_x != -1) && (v->prev_y != -1))
-			draw_line(v);
+		draw_line(v);
 		v->prev_x = v->x_pos;
 		v->prev_y = v->y_pos;
-		v->x_pos += (INCREMENT / 1.5);
-		v->y_pos += (INCREMENT / 1.5);
+		v->x_pos += (ISOMETRIC_INCREMENT);
+		v->y_pos += (ISOMETRIC_INCREMENT);
 	}
 	return (0);
 }
@@ -113,8 +111,8 @@ static int	graphic_loop(t_vars *v)
 		}
 		if (v->parallel_mode == PARALLEL_FALSE)
 		{
-			v->x_pos = (int)(HALF_LENGTH - ((INCREMENT / 1.5) * v->nl));
-			v->y_pos = (int)(START_POSITION + ((INCREMENT / 1.5) * v->nl));
+			v->x_pos = (int)(HALF_LENGTH - ((ISOMETRIC_INCREMENT) * v->nl));
+			v->y_pos = (int)(START_POSITION + ((ISOMETRIC_INCREMENT) * v->nl));
 		}
 	}
 	v->i++;
