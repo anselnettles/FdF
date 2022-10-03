@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/03 11:08:39 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/03 17:40:08 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 # define MAX_READ 500
 # define WIDTH 640
 # define HEIGHT 480
-# define START_POSITION 60
+# define START_POSITION 80
 # define HALF_LENGTH 320
 # define INCREMENT 40
 # define ISOMETRIC_INCREMENT 30
 # define ISOMETRIC_DEPTH 5
 # define PARALLEL_TRUE 1
 # define PARALLEL_FALSE 0
+# define NEW_LINE -1
 
 // MAC Keyboard keys
 # define ESC 53
@@ -34,7 +35,7 @@
 // Definitions for color constants.
 # define RED 0xCC0000
 # define NETTLE 0xAAD4B5
-# define NIGHT 0x204855
+# define NIGHT 0x152f37
 # define DAWN 0x2b6173
 # define ORANGE 0xE7C9B1
 # define WHITE 0xFFFFFF
