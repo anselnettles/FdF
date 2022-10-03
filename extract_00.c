@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/30 11:04:25 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/03 11:10:47 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	keypress(int key, void *param)
 
 static int	initialization(t_vars *v)
 {
-	v->win = mlx_new_window(v->mlx, 640, 480,
+	v->win = mlx_new_window(v->mlx, WIDTH, HEIGHT,
 			"Filsdefer | github.com/anselnettles");
 	mlx_string_put(v->mlx, v->win, 30, 20, NETTLE,
 		"Filsdefer |  \\fil ade fer\\ | wireframe");
