@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:54:01 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/03 12:39:45 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/03 17:31:34 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	draw_horizontal(t_vars *v)
 	f_prev_x = v->prev_x;
 	f_prev_y = v->prev_y;
 	step = ((f_y_pos - f_prev_y) / ISOMETRIC_INCREMENT);
-	while (f_prev_x <= f_x_pos)
+	while (f_prev_x < f_x_pos)
 	{
 		f_prev_x++;
 		f_prev_y += step;

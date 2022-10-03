@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/03 14:49:05 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/03 17:40:04 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ static int	open_read_projection(t_vars *v)
 	if (v->parallel_mode == PARALLEL_TRUE)
 	{
 		v->x_pos = START_POSITION;
-		mlx_string_put(v->mlx, v->win, 60, 20, NIGHT,
+		mlx_string_put(v->mlx, v->win, 60, 20, DAWN,
 			"[ P a r a l l e l ]  Projection Mode.");
 	}
 	if (v->parallel_mode == PARALLEL_FALSE)
 	{
 		v->x_pos = HALF_LENGTH;
-		mlx_string_put(v->mlx, v->win, 60, 20, NIGHT,
+		mlx_string_put(v->mlx, v->win, 60, 20, DAWN,
 			"[ I s o m e t r i c ]  Projection Mode.");
 	}
 	v->prev_x = v->x_pos;
@@ -90,8 +90,7 @@ int	draw_pixel(t_vars *v)
 static int	graphic_loop(t_vars *v)
 {
 	printf("\n| Buf: %d | Char: %c", v->i, v->buf[v->i]);
-	if (v->buf[v->i] != ' ' && v->buf[v->i] != '\n'
-		&& v->buf[v->i] != '\t' && v->buf[v->i])
+	if ((v->buf[v->i] != ' ' || v->buf[v->i] != '\n') && v->buf[v->i])
 	{
 		v->coordinate = write_coordinate(v);
 		if (v->coordinate == NULL)
@@ -102,8 +101,8 @@ static int	graphic_loop(t_vars *v)
 	if (v->buf[v->i] == '\n')
 	{
 		v->nl++;
-		v->prev_x = -1;
-		v->prev_y = -1;
+		v->prev_x = NEW_LINE;
+		v->prev_y = NEW_LINE;
 		if (v->parallel_mode == PARALLEL_TRUE)
 		{
 			v->x_pos = START_POSITION;

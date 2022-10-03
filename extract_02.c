@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 14:46:46 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/30 11:13:35 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/03 17:37:05 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ static int	regular_color(int depth)
 {
 	int	color;
 
-	if (depth <= 0)
+	if (depth < 0)
+		return (color = NIGHT);
+	else if (depth == 0)
 		return (color = DAWN);
 	else if (depth >= 1 && depth <= 5)
 		return (color = NETTLE);
