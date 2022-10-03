@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/30 17:04:41 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/03 11:08:39 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,12 @@
 
 // Size definitions.
 # define MAX_READ 500
+# define WIDTH 640
+# define HEIGHT 480
 # define START_POSITION 60
 # define HALF_LENGTH 320
 # define INCREMENT 40
+# define ISOMETRIC_INCREMENT 30
 # define ISOMETRIC_DEPTH 5
 # define PARALLEL_TRUE 1
 # define PARALLEL_FALSE 0
