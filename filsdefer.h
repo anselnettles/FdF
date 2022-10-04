@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/04 11:28:26 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:31:14 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ typedef struct s_vars {
 	ssize_t			newline_count;
 	int				parallel_mode;
 	int				i;
-	int				log[16];
+	int				column;
+	int				log_x[16];
+	int				log_y[16];
 	int				nl;
 	int				y_pos;
 	int				x_pos;
