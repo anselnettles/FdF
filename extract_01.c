@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/03 17:40:04 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/04 12:12:29 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	draw_pixel(t_vars *v)
 		v->y_pos += ((v->depth * ISOMETRIC_DEPTH) * -1);
 		mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos, v->color);
 		draw_line(v);
+		v->log[v->i] = v->y_pos;
+		printf(" | Log[i] coordinate height: %d", v->log[v->i]);
 		v->prev_x = v->x_pos;
 		v->prev_y = v->y_pos;
 		v->x_pos += (ISOMETRIC_INCREMENT);

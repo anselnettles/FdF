@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:54:01 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/03 17:31:34 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/04 12:08:44 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,17 @@ static int	draw_vertical(t_vars *v)
 	}
 	if (v->parallel_mode == PARALLEL_FALSE)
 	{
+	//	int step;
+	//	step = ((v->x_pos - v->prev_x) * ISOMETRIC_INCREMENT);
+	//	while (v->log[v->i] < v->y_pos)
+	//	{
+	//		v->log[v->i]++;
+	//		v->prev_x += step;
+	//		mlx_pixel_put(v->mlx, v->win, v->prev_x, v->log[v->i], v->color);
+	//	}
+//
+		//prevous y = edellisen rivin "topright" ja se depth calculaatio siitä,
+		//eli edellisen rivin depth-arvot pitää ottaa talteen.
 		//calculate bitch
 	//WHEN OFF, TAKE THE LOCATION WHERE WE'RE AT AND DRAW IT TO THE LOCATION
 	//OF A NEW VARIABLE WHERE YOU SAVED THE DEPTH INFORMATION FROM THE LAST ROW.
