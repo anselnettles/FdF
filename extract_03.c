@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:54:01 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/04 12:08:44 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:41:44 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,33 @@ static int	draw_vertical(t_vars *v)
 	}
 	if (v->parallel_mode == PARALLEL_FALSE)
 	{
-	//	int step;
-	//	step = ((v->x_pos - v->prev_x) * ISOMETRIC_INCREMENT);
+		float	x;
+		float	y;
+		int		i;
+		float	dx;
+		float	dy;
+		float	step;
+
+		i = 1;
+		dx = (v->x_pos - v->log_x[v->column]);
+		dy = (v->y_pos - v->log_y[v->column]);
+		if (fabs(dx) >= fabs(dy))
+			step = (float)fabs(dx);
+		else
+			step = (float)fabs(dy);
+		dx = (dx / step);
+		dy = (dy / step);
+		x = v->log_x[v->column];
+		y = v->log_y[v->column];
+		while (i <= step)
+		{
+			x += dx;
+			y += dy;
+			mlx_pixel_put(v->mlx, v->win, (int)x, (int)y, v->color);
+			i++;
+		}
+	}
+	//	step = ((v->x_pos - v->prev_x) / ISOMETRIC_INCREMENT);
 	//	while (v->log[v->i] < v->y_pos)
 	//	{
 	//		v->log[v->i]++;
@@ -43,7 +68,6 @@ static int	draw_vertical(t_vars *v)
 	//OF A NEW VARIABLE WHERE YOU SAVED THE DEPTH INFORMATION FROM THE LAST ROW.
 	//IF THERE WAS NO DEPTH INFORMATION, THAT SHOULD MEAN THE DIRECTION IS
 	//STANDARD (topright?)
-	}
 	return (0);
 }
 

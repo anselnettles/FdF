@@ -6,18 +6,22 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/04 12:12:29 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:33:50 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 #include <stdio.h>
+#include <errno.h>
 
 static int	open_read_projection(t_vars *v)
 {
 	v->fd = open(v->file, O_RDONLY);
 	if (v->fd == -1)
+	{
+		printf("%s", strerror(errno));
 		return (error(OPEN_FAIL));
+	}
 	v->ret = read(v->fd, v->buf, MAX_READ);
 	if (v->ret == -1)
 		return (error(READ_FAIL));
@@ -79,12 +83,14 @@ int	draw_pixel(t_vars *v)
 		v->y_pos += ((v->depth * ISOMETRIC_DEPTH) * -1);
 		mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos, v->color);
 		draw_line(v);
-		v->log[v->i] = v->y_pos;
-		printf(" | Log[i] coordinate height: %d", v->log[v->i]);
+		v->log_x[v->column] = v->x_pos;
+		v->log_y[v->column] = v->y_pos;
+		printf(" | Log_Y[i] (height): %d | Log_X[i] (width): %d", v->log_y[v->i], v->log_x[v->i]);
 		v->prev_x = v->x_pos;
 		v->prev_y = v->y_pos;
 		v->x_pos += (ISOMETRIC_INCREMENT);
 		v->y_pos += (ISOMETRIC_INCREMENT);
+		v->column++;
 	}
 	return (0);
 }
@@ -103,6 +109,7 @@ static int	graphic_loop(t_vars *v)
 	if (v->buf[v->i] == '\n')
 	{
 		v->nl++;
+		v->column = 0;
 		v->prev_x = NEW_LINE;
 		v->prev_y = NEW_LINE;
 		if (v->parallel_mode == PARALLEL_TRUE)
