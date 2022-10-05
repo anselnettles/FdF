@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 14:45:52 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/05 15:24:20 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # define DAWN 0x2b6173
 # define ORANGE 0xE7C9B1
 # define WHITE 0xFFFFFF
+# define GRAY 0x828282
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -65,6 +66,8 @@ typedef struct s_vars {
 	int				x_pos;
 	int				prev_y;
 	int				prev_x;
+	float			li_x;
+	float			li_y;
 	int				color;
 	int				depth;
 	int				fd;
