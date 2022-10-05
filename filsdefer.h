@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 11:48:24 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/05 14:45:52 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 # define FILSDEFER_H
 
 // Size definitions.
-# define MAX_READ 500
+# define MAX_READ 1000
 # define WIDTH 640
 # define HEIGHT 480
 # define START_POSITION 80
 # define HALF_LENGTH 320
 # define INCREMENT 40
 # define ISOMETRIC_INCREMENT 30
-# define ISOMETRIC_DEPTH 5
+# define ISOMETRIC_DEPTH 15
 # define PARALLEL_TRUE 1
 # define PARALLEL_FALSE 0
 # define NEW_LINE -1
