@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:54:01 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 12:07:22 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/05 14:34:26 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,12 @@ void	draw_horizontal(t_vars *v)
 
 int	draw_line(t_vars *v)
 {
-	if ((v->prev_x != -1) && (v->prev_y != -1))
-		draw_horizontal(v);
-	if (v->nl != 0)
+	if ((v->cl != 0 || v->nl != 0))
+	{
+		if ((v->prev_x != NEW_LINE) || (v->prev_y != NEW_LINE))
+			draw_horizontal(v);
+		if (v->nl != 0)
 		draw_vertical(v);
+	}
 	return (0);
 }

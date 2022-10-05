@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 12:23:08 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/05 14:36:31 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ static int	open_read_projection(t_vars *v)
 	v->ret = read(v->fd, v->buf, MAX_READ);
 	if (v->ret == -1)
 		return (error(READ_FAIL));
-	v->y_pos = START_POSITION;
-	//v->prev_y = v->y_pos;
 	if (v->parallel_mode == PARALLEL_TRUE)
 	{
 		v->x_pos = START_POSITION;
@@ -35,7 +33,6 @@ static int	open_read_projection(t_vars *v)
 		mlx_string_put(v->mlx, v->win, 60, 20, DAWN,
 			"[ I s o m e t r i c ]  Projection Mode.");
 	}
-	//v->prev_x = v->x_pos;
 	return (0);
 }
 
@@ -69,8 +66,7 @@ int	draw_pixel(t_vars *v)
 	if (v->parallel_mode == PARALLEL_FALSE)
 		v->y_pos += ((v->depth * ISOMETRIC_DEPTH) * -1);
 	mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos, v->color);
-	if ((v->cl != 0 || v->nl != 0)) //käy läpi milloin buf i '\n' saavutetaan.
-		draw_line(v); // käy läpi koko toimintajärjestys
+	draw_line(v);
 	v->log_x[v->cl] = v->x_pos;
 	v->log_y[v->cl] = v->y_pos;
 	printf(" | Log_Y[i] (height): %d | Log_X[i] (width): %d", v->log_y[v->cl], v->log_x[v->cl]);
@@ -81,7 +77,7 @@ int	draw_pixel(t_vars *v)
 	else if (v->parallel_mode == PARALLEL_FALSE)
 	{
 		v->x_pos += (ISOMETRIC_INCREMENT);
-		v->y_pos += (ISOMETRIC_INCREMENT);
+		v->y_pos += (ISOMETRIC_INCREMENT + (v->depth * ISOMETRIC_DEPTH));
 	}
 	v->cl++;
 	return (0);
@@ -89,51 +85,59 @@ int	draw_pixel(t_vars *v)
 
 static int	graphic_loop(t_vars *v)
 {
-	printf("\n| Buf: %d | Char: %c", v->i, v->buf[v->i]);
-	if ((v->buf[v->i] != ' ' && v->buf[v->i] != '\n') && v->buf[v->i])
+	while (v->i < MAX_READ)
 	{
-		v->coordinate = write_coordinate(v);
-		if (v->coordinate == NULL)
-			return (-1);
-		if (draw_pixel(v) == -1)
-			return (-1);
-	}
-	if (v->buf[v->i] == '\n')
-	{
-		v->nl++;
-		v->cl = 0;
-		v->prev_x = NEW_LINE;
-		v->prev_y = NEW_LINE;
-		if (v->parallel_mode == PARALLEL_TRUE)
+		printf("\n| Buf: %d | Char: %c", v->i, v->buf[v->i]);
+		if ((v->buf[v->i] != ' ' && v->buf[v->i] != '\n') && v->buf[v->i])
 		{
-			v->x_pos = START_POSITION;
-			v->y_pos += INCREMENT;
+			v->coordinate = write_coordinate(v);
+			if (v->coordinate == NULL)
+				return (-1);
+			if (draw_pixel(v) == -1)
+				return (-1);
 		}
-		else if (v->parallel_mode == PARALLEL_FALSE)
+		if (v->buf[v->i] == '\n')
 		{
-			v->x_pos = (int)(HALF_LENGTH - ((ISOMETRIC_INCREMENT) * v->nl));
-			v->y_pos = (int)(START_POSITION + ((ISOMETRIC_INCREMENT) * v->nl));
+			v->nl++;
+			v->cl = 0;
+			v->prev_x = NEW_LINE;
+			v->prev_y = NEW_LINE;
+			if (v->parallel_mode == PARALLEL_TRUE)
+			{
+				v->x_pos = START_POSITION;
+				v->y_pos += INCREMENT;
+			}
+			else if (v->parallel_mode == PARALLEL_FALSE)
+			{
+				v->x_pos = (int)(HALF_LENGTH - ((ISOMETRIC_INCREMENT) * v->nl));
+				v->y_pos = (int)(START_POSITION + ((ISOMETRIC_INCREMENT) * v->nl));
+			}
 		}
+		v->i++;
 	}
-	v->i++;
 	return (0);
 }
 
 int	projection(t_vars *v)
 {
+	v->i = 0;
+	v->nl = 0;
+	v->cl = 0;
+	v->y_pos = START_POSITION;
+	v->prev_x = NEW_LINE;
+	v->prev_y = NEW_LINE;
 	open_read_projection(v);
+	//v->i = 0;
+	//v->nl = 0;
 	while (v->ret)
 	{
 		v->buf[v->ret] = '\0';
-		v->i = 0;
-		v->nl = 0;
-		while (v->i < MAX_READ)
-		{
-			if (graphic_loop(v) == -1)
-				return (-1);
-		}
-		v->y_pos += INCREMENT;
-		(v->ret = read(v->fd, v->buf, MAX_READ));
+		//v->i = 0;
+		//v->nl = 0;
+		if (graphic_loop(v) == -1)
+			return (-1);
+		//v->y_pos += INCREMENT;
+		v->ret = read(v->fd, v->buf, MAX_READ);
 		if (v->ret < 0)
 			return (READ_FAIL);
 	}
