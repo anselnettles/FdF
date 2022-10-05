@@ -6,16 +6,39 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:54:01 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 14:34:26 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/05 15:50:14 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 
+/*
+**	Prototype for the color variance during draw lines.
+**	Still missing the necessary variables to make it truly adjustable.
+**	For now, it toggles a different shade of color for every other pixel
+**	during drawing the line phase.
+*/
+
+static int	shade(t_vars *v)
+{
+	int			shade;
+	static int	toggle;
+
+	if (toggle)
+	{
+		toggle = 0;
+		shade = (v->color + 82);
+		return (shade);
+	}
+	else
+	{
+		toggle = 1;
+		return (v->color);
+	}
+}
+
 void	draw_vertical(t_vars *v)
 {	
-		float	line_x;
-		float	line_y;
 		float	delta_x;
 		float	delta_y;
 		float	step;
@@ -26,20 +49,18 @@ void	draw_vertical(t_vars *v)
 			step = (float)abs(v->y_pos - v->log_y[v->cl]);
 		delta_x = ((v->x_pos - v->log_x[v->cl]) / step);
 		delta_y = ((v->y_pos - v->log_y[v->cl]) / step);
-		line_x = v->log_x[v->cl];
-		line_y = v->log_y[v->cl];
+		v->li_x = v->log_x[v->cl];
+		v->li_y = v->log_y[v->cl];
 		while ((int)step-- >= 2)
 		{
-			line_x += delta_x;
-			line_y += delta_y;
-			mlx_pixel_put(v->mlx, v->win, (int)line_x, (int)line_y, v->color);
+			v->li_x += delta_x;
+			v->li_y += delta_y;
+			mlx_pixel_put(v->mlx, v->win, (int)v->li_x, (int)v->li_y, shade(v));
 		}
 }
 
 void	draw_horizontal(t_vars *v)
 {
-		float	line_x;
-		float	line_y;
 		float	delta_x;
 		float	delta_y;
 		float	step;
@@ -50,15 +71,14 @@ void	draw_horizontal(t_vars *v)
 			step = (float)abs(v->y_pos - v->prev_y);
 		delta_x = ((v->x_pos - v->prev_x) / step);
 		delta_y = ((v->y_pos - v->prev_y) / step);
-		line_x = v->prev_x;
-		line_y = v->prev_y;
+		v->li_x = v->prev_x;
+		v->li_y = v->prev_y;
 		while ((int)step-- >= 2)
 		{
-			line_x += delta_x;
-			line_y += delta_y;
-			mlx_pixel_put(v->mlx, v->win, (int)line_x, (int)line_y, v->color);
+			v->li_x += delta_x;
+			v->li_y += delta_y;
+			mlx_pixel_put(v->mlx, v->win, (int)v->li_x, (int)v->li_y, shade(v));
 		}
-
 }
 
 int	draw_line(t_vars *v)
