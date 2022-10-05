@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:30:38 by aviholai          #+#    #+#             */
-/*   Updated: 2022/09/29 18:38:29 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/05 11:52:09 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,16 @@ int	main(int argc, char **argv)
 {
 	t_vars	v;
 	static char	buf[MAX_READ + 1];
-	int			fd;
-	size_t		ret;
 
-	fd = 0;
-	ret = 0;
+	v.fd = 0;
+	v.ret = 0;
+	v.file = argv[1];
+	v.buf = buf;
 	if (argc != 2)
 		return (error(BAD_ARGS));
 	if (validate_file(argv[1], &buf[0], &v) == -1)
 		return (-1);
-	if (extract_file(argv[1], &buf[0], &v) == -1)
+	if (extract_file(&v) == -1)
 		return (-1);
 	return (0);
 }
