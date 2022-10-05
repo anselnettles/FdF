@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 15:24:20 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/05 16:30:04 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 # define FILSDEFER_H
 
 // Size definitions.
-# define MAX_READ 1000
-# define WIDTH 640
-# define HEIGHT 480
-# define START_POSITION 80
-# define HALF_LENGTH 320
-# define INCREMENT 40
-# define ISOMETRIC_INCREMENT 30
-# define ISOMETRIC_DEPTH 15
-# define PARALLEL_TRUE 1
-# define PARALLEL_FALSE 0
-# define NEW_LINE -1
+# define MAX_READ 1000			// Maximum buffer size for READ()
+# define WIDTH 640				// Window resolution width
+# define HEIGHT 480				// Window resolution height
+# define START_POS 80			// Graph starting draw height (from top)
+# define HALF_LENGTH 320		// Half of the resolution width (for Isometric)
+# define INCREMENT 40			// The increment in-between pixel coordinates
+# define ISOMETRIC_INCREMENT 30 // The increment when in Isometric Mode
+# define ISOMETRIC_DEPTH 15		// ADJUST THIS for different Isometric peaks
+# define PARALLEL_TRUE 1		// True statement for Parallel Mode
+# define PARALLEL_FALSE 0		// False statement for Parallel Mode
+# define NEW_LINE -1			// Used to neutralize variables
 
 // MAC Keyboard keys
 # define ESC 53
@@ -90,7 +90,6 @@ typedef enum e_error
 int		validate_file(const char *file, char *buf, t_vars *v);
 int		extract_file(t_vars *v);
 int		projection(t_vars *v);
-int		draw_pixel(t_vars *v);
 int		draw_line(t_vars *v);
 int		color_parser(char *coordinate, int depth);
 int		depth_parser(char *coordinate);

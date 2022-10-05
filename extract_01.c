@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 14:36:31 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/05 16:31:03 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	open_read_projection(t_vars *v)
 		return (error(READ_FAIL));
 	if (v->parallel_mode == PARALLEL_TRUE)
 	{
-		v->x_pos = START_POSITION;
+		v->x_pos = START_POS;
 		mlx_string_put(v->mlx, v->win, 60, 20, DAWN,
 			"[ P a r a l l e l ]  Projection Mode.");
 	}
@@ -59,8 +59,11 @@ char	*write_coordinate(t_vars *v)
 	return (coordinate);
 }
 
-int	draw_pixel(t_vars *v)
+static int	draw_pixel(t_vars *v)
 {
+	v->coordinate = write_coordinate(v);
+	if (v->coordinate == NULL)
+		return (-1);
 	v->depth = depth_parser(v->coordinate);
 	v->color = color_parser(v->coordinate, v->depth);
 	if (v->parallel_mode == PARALLEL_FALSE)
@@ -89,13 +92,7 @@ static int	graphic_loop(t_vars *v)
 	{
 		printf("\n| Buf: %d | Char: %c", v->i, v->buf[v->i]);
 		if ((v->buf[v->i] != ' ' && v->buf[v->i] != '\n') && v->buf[v->i])
-		{
-			v->coordinate = write_coordinate(v);
-			if (v->coordinate == NULL)
-				return (-1);
-			if (draw_pixel(v) == -1)
-				return (-1);
-		}
+			draw_pixel(v);
 		if (v->buf[v->i] == '\n')
 		{
 			v->nl++;
@@ -104,13 +101,13 @@ static int	graphic_loop(t_vars *v)
 			v->prev_y = NEW_LINE;
 			if (v->parallel_mode == PARALLEL_TRUE)
 			{
-				v->x_pos = START_POSITION;
+				v->x_pos = START_POS;
 				v->y_pos += INCREMENT;
 			}
 			else if (v->parallel_mode == PARALLEL_FALSE)
 			{
 				v->x_pos = (int)(HALF_LENGTH - ((ISOMETRIC_INCREMENT) * v->nl));
-				v->y_pos = (int)(START_POSITION + ((ISOMETRIC_INCREMENT) * v->nl));
+				v->y_pos = (int)(START_POS + ((ISOMETRIC_INCREMENT) * v->nl));
 			}
 		}
 		v->i++;
@@ -123,20 +120,15 @@ int	projection(t_vars *v)
 	v->i = 0;
 	v->nl = 0;
 	v->cl = 0;
-	v->y_pos = START_POSITION;
+	v->y_pos = START_POS;
 	v->prev_x = NEW_LINE;
 	v->prev_y = NEW_LINE;
 	open_read_projection(v);
-	//v->i = 0;
-	//v->nl = 0;
 	while (v->ret)
 	{
 		v->buf[v->ret] = '\0';
-		//v->i = 0;
-		//v->nl = 0;
 		if (graphic_loop(v) == -1)
 			return (-1);
-		//v->y_pos += INCREMENT;
 		v->ret = read(v->fd, v->buf, MAX_READ);
 		if (v->ret < 0)
 			return (READ_FAIL);

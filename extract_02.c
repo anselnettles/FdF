@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 14:46:46 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 15:55:41 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/05 16:40:39 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,16 @@ static int	regular_color(int depth)
 		return (color = RED);
 }
 
+/*
+**	Missing the HEX color code adjuster.
+*/
+
 int	color_parser(char *coordinate, int depth)
 {
 	int		i;
 	int		i2;
-	char	*string;
 	int		color;
+	char	*string;
 
 	i = 0;
 	while (coordinate[i])
@@ -63,9 +67,8 @@ int	color_parser(char *coordinate, int depth)
 				i2++;
 			}
 			string[i2] = '\0';
-			//FIGURE THIS OUT LATER.
 			printf(" | HEX color: %s!", string);
-			return (color = ft_atoi(string));
+			return (color = 0xcc0000);
 		}
 		i++;
 	}

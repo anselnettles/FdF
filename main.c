@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:30:38 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 11:52:09 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/05 16:42:06 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	error(int errorcode)
 
 int	main(int argc, char **argv)
 {
-	t_vars	v;
+	t_vars		v;
 	static char	buf[MAX_READ + 1];
 
 	v.fd = 0;
