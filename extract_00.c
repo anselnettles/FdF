@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/03 11:10:47 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/05 12:05:42 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ int	keypress(int key, void *param)
 	return (0);
 }
 
-static int	initialization(t_vars *v)
+void	initialization(t_vars *v)
 {
 	v->win = mlx_new_window(v->mlx, WIDTH, HEIGHT,
 			"Filsdefer | github.com/anselnettles");
 	mlx_string_put(v->mlx, v->win, 30, 20, NETTLE,
 		"Filsdefer |  \\fil ade fer\\ | wireframe");
-	mlx_string_put(v->mlx, v->win, 60, 45, NIGHT,
+	mlx_string_put(v->mlx, v->win, 60, 45, DAWN,
 		"A skeletal three-dimensional model in which");
-	mlx_string_put(v->mlx, v->win, 60, 65, NIGHT,
+	mlx_string_put(v->mlx, v->win, 60, 65, DAWN,
 		"only lines and vertices are represented.");
 	mlx_string_put(v->mlx, v->win, 30, 120, ORANGE,
 		"Press TAB to toggle projection.");
@@ -61,24 +61,15 @@ static int	initialization(t_vars *v)
 		"Press ESC to quit.");
 	mlx_string_put(v->mlx, v->win, 240, 425, NETTLE,
 		"Ansel Nettles | github.com/anselnettles");
-	mlx_string_put(v->mlx, v->win, 240, 445, NIGHT,
+	mlx_string_put(v->mlx, v->win, 240, 445, DAWN,
 		"\" C o d e - ' n - S w o r d \"");
-	return (0);
+	v->parallel_mode = PARALLEL_FALSE;
 }
 
-int	extract_file(char *file, char *buf, t_vars *v)
+int	extract_file(t_vars *v)
 {
-	//printf("\n\nWelcome to extract_file(). \nSo, total_newlines is %d\n",
-	//		total_newlines);
-	//v.total_newlines = total_newlines;
-	v->file = file;
-	v->buf = buf;
-	//v.fd = open(file, O_RDONLY);
-	//v.ret = read(v.fd, v.buf, MAX_READ);
 	v->mlx = mlx_init();
-	if (initialization(v) != 0)
-		return (-1);
-	v->parallel_mode = PARALLEL_FALSE;
+	initialization(v);
 	mlx_key_hook(v->win, keypress, (void *)v);
 	mlx_loop(v->mlx);
 	return (0);

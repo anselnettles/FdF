@@ -6,27 +6,23 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/04 18:33:50 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/05 12:23:08 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 #include <stdio.h>
-#include <errno.h>
 
 static int	open_read_projection(t_vars *v)
 {
 	v->fd = open(v->file, O_RDONLY);
 	if (v->fd == -1)
-	{
-		printf("%s", strerror(errno));
 		return (error(OPEN_FAIL));
-	}
 	v->ret = read(v->fd, v->buf, MAX_READ);
 	if (v->ret == -1)
 		return (error(READ_FAIL));
 	v->y_pos = START_POSITION;
-	v->prev_y = v->y_pos;
+	//v->prev_y = v->y_pos;
 	if (v->parallel_mode == PARALLEL_TRUE)
 	{
 		v->x_pos = START_POSITION;
@@ -39,7 +35,7 @@ static int	open_read_projection(t_vars *v)
 		mlx_string_put(v->mlx, v->win, 60, 20, DAWN,
 			"[ I s o m e t r i c ]  Projection Mode.");
 	}
-	v->prev_x = v->x_pos;
+	//v->prev_x = v->x_pos;
 	return (0);
 }
 
@@ -70,35 +66,31 @@ int	draw_pixel(t_vars *v)
 {
 	v->depth = depth_parser(v->coordinate);
 	v->color = color_parser(v->coordinate, v->depth);
-	if (v->parallel_mode == PARALLEL_TRUE)
-	{
-		mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos, v->color);
-		draw_line(v);
-		v->prev_x = v->x_pos;
-		v->prev_y = v->y_pos;
-		v->x_pos += (INCREMENT);
-	}
 	if (v->parallel_mode == PARALLEL_FALSE)
-	{
 		v->y_pos += ((v->depth * ISOMETRIC_DEPTH) * -1);
-		mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos, v->color);
-		draw_line(v);
-		v->log_x[v->column] = v->x_pos;
-		v->log_y[v->column] = v->y_pos;
-		printf(" | Log_Y[i] (height): %d | Log_X[i] (width): %d", v->log_y[v->i], v->log_x[v->i]);
-		v->prev_x = v->x_pos;
-		v->prev_y = v->y_pos;
+	mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos, v->color);
+	if ((v->cl != 0 || v->nl != 0)) //käy läpi milloin buf i '\n' saavutetaan.
+		draw_line(v); // käy läpi koko toimintajärjestys
+	v->log_x[v->cl] = v->x_pos;
+	v->log_y[v->cl] = v->y_pos;
+	printf(" | Log_Y[i] (height): %d | Log_X[i] (width): %d", v->log_y[v->cl], v->log_x[v->cl]);
+	v->prev_x = v->x_pos;
+	v->prev_y = v->y_pos;
+	if (v->parallel_mode == PARALLEL_TRUE)
+		v->x_pos += (INCREMENT);
+	else if (v->parallel_mode == PARALLEL_FALSE)
+	{
 		v->x_pos += (ISOMETRIC_INCREMENT);
 		v->y_pos += (ISOMETRIC_INCREMENT);
-		v->column++;
 	}
+	v->cl++;
 	return (0);
 }
 
 static int	graphic_loop(t_vars *v)
 {
 	printf("\n| Buf: %d | Char: %c", v->i, v->buf[v->i]);
-	if ((v->buf[v->i] != ' ' || v->buf[v->i] != '\n') && v->buf[v->i])
+	if ((v->buf[v->i] != ' ' && v->buf[v->i] != '\n') && v->buf[v->i])
 	{
 		v->coordinate = write_coordinate(v);
 		if (v->coordinate == NULL)
@@ -109,7 +101,7 @@ static int	graphic_loop(t_vars *v)
 	if (v->buf[v->i] == '\n')
 	{
 		v->nl++;
-		v->column = 0;
+		v->cl = 0;
 		v->prev_x = NEW_LINE;
 		v->prev_y = NEW_LINE;
 		if (v->parallel_mode == PARALLEL_TRUE)
@@ -117,7 +109,7 @@ static int	graphic_loop(t_vars *v)
 			v->x_pos = START_POSITION;
 			v->y_pos += INCREMENT;
 		}
-		if (v->parallel_mode == PARALLEL_FALSE)
+		else if (v->parallel_mode == PARALLEL_FALSE)
 		{
 			v->x_pos = (int)(HALF_LENGTH - ((ISOMETRIC_INCREMENT) * v->nl));
 			v->y_pos = (int)(START_POSITION + ((ISOMETRIC_INCREMENT) * v->nl));
