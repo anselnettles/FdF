@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 16:14:59 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 11:35:33 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ void	initialization(t_vars *v)
 		"Press TAB to toggle projection.");
 	mlx_string_put(v->mlx, v->win, 30, 160, ORANGE,
 		"Press ESC to quit.");
-	mlx_string_put(v->mlx, v->win, 240, 425, NETTLE,
+	mlx_string_put(v->mlx, v->win, WIDTH - 440, HEIGHT - 65, NETTLE,
 		"Ansel Nettles | github.com/anselnettles");
-	mlx_string_put(v->mlx, v->win, 240, 445, DAWN,
+	mlx_string_put(v->mlx, v->win, WIDTH - 440, HEIGHT - 45, DAWN,
 		"\" C o d e - ' n - S w o r d \"");
 	v->parallel_mode = PARALLEL_FALSE;
 }
