@@ -6,12 +6,12 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 14:46:46 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 16:40:39 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:54:00 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
-#include <stdio.h>
+//#include <stdio.h>
 
 /*
 ** A very bare color picker for different integer depth values.
@@ -43,36 +43,34 @@ static int	regular_color(int depth)
 **	Missing the HEX color code adjuster.
 */
 
-int	color_parser(char *coordinate, int depth)
+int	color_parser(char *coordinate, int depth, t_vars *v)
 {
-	int		i;
-	int		i2;
 	int		color;
 	char	*string;
 
-	i = 0;
-	while (coordinate[i])
+	v->color_i = 0;
+	while (coordinate[v->color_i])
 	{
-		if (coordinate[i] == ',')
+		if (coordinate[v->color_i] == ',')
 		{
-			i++;
-			i2 = 0;
+			v->color_i++;
+			v->color_i2 = 0;
 			string = (char *)malloc(sizeof(char) * (ft_strlen(coordinate) + 1));
 			if (string == NULL)
 				return (-1);
-			while (coordinate[i])
+			while (coordinate[v->color_i])
 			{
-				string[i2] = coordinate[i];
-				i++;
-				i2++;
+				string[v->color_i2] = coordinate[v->color_i];
+				v->color_i++;
+				v->color_i2++;
 			}
-			string[i2] = '\0';
-			printf(" | HEX color: %s!", string);
+			string[v->color_i2] = '\0';
+	//		printf(" | HEX color: %s!", string);
 			return (color = 0xcc0000);
 		}
-		i++;
+		v->color_i++;
 	}
-	printf(" | Reg color.");
+//	printf(" | Reg color.");
 	return (color = regular_color(depth));
 }
 
@@ -92,8 +90,8 @@ int	depth_parser(char *coordinate)
 		i++;
 	}
 	new_string[i] = '\0';
-	printf(" | String: %s", new_string);
+//	printf(" | String: %s", new_string);
 	depth = ft_atoi(new_string);
-	printf(" | Atoi: %d", depth);
+//	printf(" | Atoi: %d", depth);
 	return (depth);
 }

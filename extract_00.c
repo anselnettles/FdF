@@ -6,12 +6,12 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 11:35:33 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:22:26 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
-#include <stdio.h>
+//#include <stdio.h>
 
 /*
 **	Function 'keypress()' is alert and awaiting for a press of a key and

@@ -1,3 +1,4 @@
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   extract_01.c                                       :+:      :+:    :+:   */
@@ -5,12 +6,12 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 16:31:03 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:52:30 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
-#include <stdio.h>
+//#include <stdio.h>
 
 static int	open_read_projection(t_vars *v)
 {
@@ -64,14 +65,14 @@ static int	draw_pixel(t_vars *v)
 	if (v->coordinate == NULL)
 		return (-1);
 	v->depth = depth_parser(v->coordinate);
-	v->color = color_parser(v->coordinate, v->depth);
+	v->color = color_parser(v->coordinate, v->depth, v);
 	if (v->parallel_mode == PARALLEL_FALSE)
 		v->y_pos += ((v->depth * ISOMETRIC_DEPTH) * -1);
 	mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos, v->color);
 	draw_line(v);
 	v->log_x[v->cl] = v->x_pos;
 	v->log_y[v->cl] = v->y_pos;
-	printf(" | Log_Y[i] (height): %d | Log_X[i] (width): %d", v->log_y[v->cl], v->log_x[v->cl]);
+	//printf(" | Log_Y[i] (height): %d | Log_X[i] (width): %d", v->log_y[v->cl], v->log_x[v->cl]);
 	v->prev_x = v->x_pos;
 	v->prev_y = v->y_pos;
 	if (v->parallel_mode == PARALLEL_TRUE)
@@ -89,7 +90,7 @@ static int	graphic_loop(t_vars *v)
 {
 	while (v->i < MAX_READ)
 	{
-		printf("\n| Buf: %d | Char: %c", v->i, v->buf[v->i]);
+	//	printf("\n| Buf: %d | Char: %c", v->i, v->buf[v->i]);
 		if ((v->buf[v->i] != ' ' && v->buf[v->i] != '\n') && v->buf[v->i])
 			draw_pixel(v);
 		if (v->buf[v->i] == '\n')
