@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 11:41:34 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:23:26 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ typedef struct s_vars {
 	int				parallel_mode;
 	int				i;
 	int				cl;
-	int				log_x[20];
-	int				log_y[20];
+	int				log_x[MAX_READ];
+	int				log_y[MAX_READ];
 	int				nl;
 	int				y_pos;
 	int				x_pos;
