@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 16:53:53 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 18:57:02 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static int	draw_pixel(t_vars *v)
 		return (-1);
 	v->depth = depth_parser(v->coordinate);
 	v->color = color_parser(v->coordinate, v->depth, v);
+	free(v->coordinate);
 	if (v->parallel_mode == PARALLEL_FALSE)
 		v->y_pos += ((v->depth * v->altitude) * -1);
 	mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos, v->color);

@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 14:46:46 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 16:54:10 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 18:54:58 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,27 +45,12 @@ static int	regular_color(int depth)
 int	color_parser(char *coordinate, int depth, t_vars *v)
 {
 	int		color;
-	char	*string;
 
 	v->color_i = 0;
 	while (coordinate[v->color_i])
 	{
 		if (coordinate[v->color_i] == ',')
-		{
-			v->color_i++;
-			v->color_i2 = 0;
-			string = (char *)malloc(sizeof(char) * (ft_strlen(coordinate) + 1));
-			if (string == NULL)
-				return (-1);
-			while (coordinate[v->color_i])
-			{
-				string[v->color_i2] = coordinate[v->color_i];
-				v->color_i++;
-				v->color_i2++;
-			}
-			string[v->color_i2] = '\0';
-			return (color = 0xcc0000);
-		}
+			return (color = RED);
 		v->color_i++;
 	}
 	return (color = regular_color(depth));
@@ -88,5 +73,6 @@ int	depth_parser(char *coordinate)
 	}
 	new_string[i] = '\0';
 	depth = ft_atoi(new_string);
+	free(new_string);
 	return (depth);
 }
