@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 15:53:06 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:49:33 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 # define HALF_LENGTH 320		// Half of the resolution width (for Isometric)
 # define INCREMENT 40			// The increment in-between pixel coordinates
 # define ISOMETRIC_INCREMENT 30 // The increment when in Isometric Mode
-# define ISOMETRIC_DEPTH 15		// ADJUST THIS for different Isometric peaks
+# define ISOMETRIC_DEPTH 15		// Standard altitude setting for Z-axis
+# define ISOMETRIC_TOGGLE 1		// ADJUST THIS for a different toggle option
 # define PARALLEL_TRUE 1		// True statement for Parallel Mode
 # define PARALLEL_FALSE 0		// False statement for Parallel Mode
 # define NEW_LINE -1			// Used to neutralize variables
@@ -31,6 +32,7 @@
 # define RETURN 36
 # define SHIFT 56
 # define TAB 48
+# define A 0
 
 // Definitions for color constants.
 # define RED 0xCC0000
@@ -76,6 +78,7 @@ typedef struct s_vars {
 	int				depth;
 	int				fd;
 	char			*coordinate;
+	int				altitude;
 
 }	t_vars;
 

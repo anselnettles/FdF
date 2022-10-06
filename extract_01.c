@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 15:52:30 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:45:00 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	draw_pixel(t_vars *v)
 	v->depth = depth_parser(v->coordinate);
 	v->color = color_parser(v->coordinate, v->depth, v);
 	if (v->parallel_mode == PARALLEL_FALSE)
-		v->y_pos += ((v->depth * ISOMETRIC_DEPTH) * -1);
+		v->y_pos += ((v->depth * v->altitude) * -1);
 	mlx_pixel_put(v->mlx, v->win, v->x_pos, v->y_pos, v->color);
 	draw_line(v);
 	v->log_x[v->cl] = v->x_pos;
@@ -80,7 +80,7 @@ static int	draw_pixel(t_vars *v)
 	else if (v->parallel_mode == PARALLEL_FALSE)
 	{
 		v->x_pos += (ISOMETRIC_INCREMENT);
-		v->y_pos += (ISOMETRIC_INCREMENT + (v->depth * ISOMETRIC_DEPTH));
+		v->y_pos += (ISOMETRIC_INCREMENT + (v->depth * v->altitude));
 	}
 	v->cl++;
 	return (0);

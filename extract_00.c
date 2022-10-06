@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 15:22:26 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:48:27 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ int	keypress(int key, void *param)
 			v->parallel_mode = PARALLEL_FALSE;
 		projection(v);
 	}
+	if (key == A)
+	{
+		if (v->altitude == ISOMETRIC_DEPTH)
+			v->altitude = ISOMETRIC_TOGGLE;
+		else
+			v->altitude = ISOMETRIC_DEPTH;
+	}
 	if (key == ESC)
 	{
 		mlx_destroy_window(v->mlx, v->win);
@@ -59,11 +66,14 @@ void	initialization(t_vars *v)
 		"Press TAB to toggle projection.");
 	mlx_string_put(v->mlx, v->win, 30, 160, ORANGE,
 		"Press ESC to quit.");
+	mlx_string_put(v->mlx, v->win, 30, 200, ORANGE,
+		"Press A to lower isometric altitude.");
 	mlx_string_put(v->mlx, v->win, WIDTH - 440, HEIGHT - 65, NETTLE,
 		"Ansel Nettles | github.com/anselnettles");
 	mlx_string_put(v->mlx, v->win, WIDTH - 440, HEIGHT - 45, DAWN,
 		"\" C o d e - ' n - S w o r d \"");
 	v->parallel_mode = PARALLEL_FALSE;
+	v->altitude = ISOMETRIC_DEPTH;
 }
 
 int	extract_file(t_vars *v)
