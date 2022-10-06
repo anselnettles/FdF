@@ -6,12 +6,11 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:30:38 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 15:22:38 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:18:30 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
-//#include "stdio.h"
 #define ERROR_MESSAGES 8
 
 int	error(int errorcode)
