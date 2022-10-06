@@ -6,13 +6,13 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:30:38 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 16:42:06 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 11:28:08 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
 #include "stdio.h"
-#define ERROR_MESSAGES 7
+#define ERROR_MESSAGES 8
 
 int	error(int errorcode)
 {
@@ -21,10 +21,11 @@ int	error(int errorcode)
 	error_messages[0] = "\033[1;32musage: \"\033[0;37m./fdf <path>\033[1;32m\"";
 	error_messages[1] = "\033[1;31mERROR: Could not open the file.";
 	error_messages[2] = "\033[1;31mERROR: Could not read the file.";
-	error_messages[3] = "\033[1;31mERROR: File contains invalid characters.";
+	error_messages[3] = "\033[1;31mERROR: Formatting error.";
 	error_messages[4] = "\033[1;31mERROR: Could not close the file.";
 	error_messages[5] = "\033[1;31mERROR: File too large.";
 	error_messages[6] = "\033[1;31mERROR: File prints empty.";
+	error_messages[7] = "\033[1:31mERROR: No line breaks in the file.";
 	write(1, error_messages[errorcode], ft_strlen(error_messages[errorcode]));
 	write(1, "\n", 1);
 	return (-1);
