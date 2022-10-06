@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 16:30:04 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 11:41:34 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 // Size definitions.
 # define MAX_READ 1000			// Maximum buffer size for READ()
-# define WIDTH 640				// Window resolution width
-# define HEIGHT 480				// Window resolution height
+# define WIDTH 1080				// Window resolution width
+# define HEIGHT 920				// Window resolution height
 # define START_POS 80			// Graph starting draw height (from top)
 # define HALF_LENGTH 320		// Half of the resolution width (for Isometric)
 # define INCREMENT 40			// The increment in-between pixel coordinates
@@ -54,8 +54,8 @@ typedef struct s_vars {
 	char			*file;
 	ssize_t			ret;
 	char			*buf;
-	int				total_newlines;
-	ssize_t			newline_count;
+	int				read_newlines;
+	int				read_numbers;
 	int				parallel_mode;
 	int				i;
 	int				cl;
@@ -85,6 +85,7 @@ typedef enum e_error
 	CLOSE_FAIL,
 	FILE_MAX,
 	NO_PRINT,
+	NO_NL,
 }	t_error;
 
 int		validate_file(const char *file, char *buf, t_vars *v);
@@ -95,9 +96,7 @@ int		color_parser(char *coordinate, int depth);
 int		depth_parser(char *coordinate);
 int		error(int errorcode);
 int		ft_atoi(const char *str);
-char	*ft_itoa(int n);
 void	ft_putchar(char c);
-char	*ft_strcpy(char *dst, const char *src);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 #endif
