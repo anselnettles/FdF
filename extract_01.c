@@ -6,12 +6,11 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 16:45:00 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:53:53 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
-//#include <stdio.h>
 
 static int	open_read_projection(t_vars *v)
 {
@@ -72,7 +71,6 @@ static int	draw_pixel(t_vars *v)
 	draw_line(v);
 	v->log_x[v->cl] = v->x_pos;
 	v->log_y[v->cl] = v->y_pos;
-	//printf(" | Log_Y[i] (height): %d | Log_X[i] (width): %d", v->log_y[v->cl], v->log_x[v->cl]);
 	v->prev_x = v->x_pos;
 	v->prev_y = v->y_pos;
 	if (v->parallel_mode == PARALLEL_TRUE)
@@ -90,7 +88,6 @@ static int	graphic_loop(t_vars *v)
 {
 	while (v->i < MAX_READ)
 	{
-	//	printf("\n| Buf: %d | Char: %c", v->i, v->buf[v->i]);
 		if ((v->buf[v->i] != ' ' && v->buf[v->i] != '\n') && v->buf[v->i])
 			draw_pixel(v);
 		if (v->buf[v->i] == '\n')

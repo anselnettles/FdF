@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 18:08:59 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 15:58:03 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:03:47 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	validation_error_check(t_vars *v, char *buf, ssize_t i)
 	}
 	if (buf[i] >= '0' && buf[i] <= '9')
 			v->read_numbers = 1;
-	if (buf[i] == ' ' && (buf[i + 1] != ' ' || buf[i + 1] != '\n'))
+	if (buf[i] == ' ' && (buf[i + 1] != ' ' && buf[i + 1] != '\n'))
 			v->read_columns++;
 	if ((v->column_check) && (v->read_columns > v->column_check))
 		return (error(INVALID_CHARS));

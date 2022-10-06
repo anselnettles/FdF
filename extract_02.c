@@ -6,12 +6,11 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 14:46:46 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 16:35:22 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:54:10 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
-//#include <stdio.h>
 
 /*
 ** A very bare color picker for different integer depth values.
@@ -65,12 +64,10 @@ int	color_parser(char *coordinate, int depth, t_vars *v)
 				v->color_i2++;
 			}
 			string[v->color_i2] = '\0';
-	//		printf(" | HEX color: %s!", string);
 			return (color = 0xcc0000);
 		}
 		v->color_i++;
 	}
-//	printf(" | Reg color.");
 	return (color = regular_color(depth));
 }
 
@@ -90,8 +87,6 @@ int	depth_parser(char *coordinate)
 		i++;
 	}
 	new_string[i] = '\0';
-//	printf(" | String: %s", new_string);
 	depth = ft_atoi(new_string);
-//	printf(" | Atoi: %d", depth);
 	return (depth);
 }
