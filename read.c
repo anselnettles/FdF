@@ -6,12 +6,12 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 18:08:59 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 11:32:17 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:58:03 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
-#include <stdio.h>
+//#include <stdio.h>
 
 static int	file_cancel(t_vars *v)
 {
@@ -19,6 +19,45 @@ static int	file_cancel(t_vars *v)
 		return (error(NO_NL));
 	if (!v->read_numbers)
 		return (error(NO_PRINT));
+	return (0);
+}
+
+static int	validation_error_check(t_vars *v, char *buf, ssize_t i)
+{
+	//	printf("I#%d. ", j);
+	if (buf[i] < ',' || buf[i] > 'F')
+	{
+		if (buf[i] != ' ' && buf[i] != 'x' && buf[i] != '\n')
+		{
+	//	printf("It is in the large scope. It is not ' ', 'x' or a newline. ");
+			return (error(INVALID_CHARS));
+		}
+	}
+	if (buf[i] == '.' || buf[i] == '/')
+	{
+	//	printf("There is a '.' or a '/' ");
+		return (error(INVALID_CHARS));
+	}
+	if (buf[i] > '9' && buf[i] < 'A')
+	{
+	//	printf("There is something between '9' and 'A'. ");
+		return (error(INVALID_CHARS));
+	}
+	if (buf[i] == '\n')
+	{
+		if ((v->column_check) && (v->read_columns != v->column_check))
+			return (error(INVALID_CHARS));
+		v->column_check = v->read_columns;
+		v->read_columns = 0;
+		v->read_newlines++;
+	//	printf("Found newline %d. ", v->read_newlines);
+	}
+	if (buf[i] >= '0' && buf[i] <= '9')
+			v->read_numbers = 1;
+	if (buf[i] == ' ' && (buf[i + 1] != ' ' || buf[i + 1] != '\n'))
+			v->read_columns++;
+	if ((v->column_check) && (v->read_columns > v->column_check))
+		return (error(INVALID_CHARS));
 	return (0);
 }
 
@@ -31,32 +70,8 @@ static int	symbol_validation(char *buf, ssize_t ret, t_vars *v)
 	//printf("The length of 'ret' is %zu.\n", ret);
 	while (i < ret)
 	{
-	//	printf("I#%d. ", j);
-		if (buf[i] < ',' || buf[i] > 'F')
-		{
-			if (buf[i] != ' ' && buf[i] != 'x' && buf[i] != '\n')
-			{
-	//			printf("It is in the large scope. It is not ' ', 'x' or a newline. ");
-				return (error(INVALID_CHARS));
-			}
-		}
-		if (buf[i] == '.' || buf[i] == '/')
-		{
-	//		printf("There is a '.' or a '/' ");
-			return (error(INVALID_CHARS));
-		}
-		if (buf[i] > '9' && buf[i] < 'A')
-		{
-	//		printf("There is something between '9' and 'A'. ");
-			return (error(INVALID_CHARS));
-		}
-		if (buf[i] == '\n')
-		{
-			v->read_newlines++;
-	//		printf("Found newline %d. ", v->read_newlines);
-		}
-		if (buf[i] >= '0' && buf[i] <= '9')
-			v->read_numbers = 1;
+		if (validation_error_check(v, buf, i) == -1)
+			return (-1);
 		i++;
 		j++;
 	}
@@ -65,13 +80,20 @@ static int	symbol_validation(char *buf, ssize_t ret, t_vars *v)
 	return (0);
 }
 
+void	set_variables(t_vars *v)
+{
+	v->read_newlines = 0;
+	v->read_numbers = 0;
+	v->column_check = 0;
+	v->read_columns = 0;
+}
+
 int	validate_file(const char *file, char *buf, t_vars *v)
 {
 	int				fd;
 	ssize_t			ret;
-	
-	v->read_newlines = 0;
-	v->read_numbers = 0;
+
+	set_variables(v);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (error(OPEN_FAIL));
