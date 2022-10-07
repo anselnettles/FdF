@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 18:08:59 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 17:09:26 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:23:06 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ static int	symbol_validation(char *buf, ssize_t ret, t_vars *v)
 	{
 		if (validation_error_check(v, buf, i) == -1)
 			return (-1);
+		if ((buf[i] != ' ' && buf[i] != '\n' && buf[i])
+			&& (buf[i + 1] != ' ' && buf[i + 1] != '\n')
+			&& (buf[i + 2] != ' ' && buf[i + 2] != '\n')
+			&& (buf[i + 3] != ' ' && buf[i + 3] != '\n'))
+			return (error(INVALID_CHARS));
 		i++;
 		j++;
 	}
