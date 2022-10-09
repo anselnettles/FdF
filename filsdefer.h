@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 18:16:25 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/07 17:03:13 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FILSDEFER_H
 
 // Size definitions.
-# define MAX_READ 1000			// Maximum buffer size for READ()
+# define MAX_READ 100000		// Maximum buffer size for READ()
 # define WIDTH 1080				// Window resolution width
 # define HEIGHT 920				// Window resolution height
 # define START_POS 80			// Graph starting draw height (from top)
@@ -40,7 +40,7 @@
 # define NIGHT 0x152f37
 # define DAWN 0x2b6173
 # define ORANGE 0xE7C9B1
-# define WHITE 0xFFFFFF
+# define WHITE 0xdbdbdb
 # define GRAY 0x828282
 
 # include <unistd.h>
