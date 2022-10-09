@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:54:01 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/05 16:41:39 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/07 17:02:07 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	shade(t_vars *v)
 	if (toggle)
 	{
 		toggle = 0;
-		shade = (v->color + 82);
+		shade = (v->color + 255);
 		return (shade);
 	}
 	else
