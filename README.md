@@ -12,6 +12,7 @@ MiniLibraryX (MLX) is a 42School graphical library used in the graphics branch p
 • Press `TAB` to toggle projection modes (Parallel Mode, Isometric Mode). <br>
 • Press `ESC` to quit the program. <br>
 • Press `A` to toggle between peak height factor when switching back to Isometric Mode. <br><br>
+• Press `+` or `-` to zoom in or out. <br><br>
 As the program was initially planned for school computer use, the keyboard controls may not be hooked properly to other than MacOS.
 
 ![Animated usage GIF of the project](https://github.com/anselnettles/FdF/blob/main/fdf_video.gif)
