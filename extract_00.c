@@ -6,11 +6,12 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/06 16:53:19 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/12 14:41:18 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filsdefer.h"
+#include "stdio.h"
 
 /*
 **	Function 'keypress()' is alert and awaiting for a press of a key and
@@ -22,7 +23,7 @@
 **	'MLX' keyhook function. See 'mlx_key_hook()' in 'extract_file()', below.
 */
 
-int	keypress(int key, void *param)
+int		keypress(int key, void *param)
 {
 	t_vars	*v;
 
@@ -42,6 +43,24 @@ int	keypress(int key, void *param)
 			v->altitude = ISOMETRIC_TOGGLE;
 		else
 			v->altitude = ISOMETRIC_DEPTH;
+	}
+	if (key == PLUSA || key == PLUSB)
+	{
+		mlx_clear_window(v->mlx, v->win);
+		v->start_pos *= 0.95;
+		v->half_length *= 0.95;
+		v->increment *= 1.95;
+		v->isometric_increment *= 1.95;
+		projection(v);
+	}
+	if (key == MINUSA || key == MINUSB)
+	{
+		v->start_pos *= 1.05;
+		v->half_length *= 1.05;
+		v->increment *= 0.95;
+		v->isometric_increment *= 0.95;
+		mlx_clear_window(v->mlx, v->win);
+		projection(v);
 	}
 	if (key == ESC)
 	{
@@ -66,13 +85,21 @@ void	initialization(t_vars *v)
 	mlx_string_put(v->mlx, v->win, 30, 160, ORANGE,
 		"Press ESC to quit.");
 	mlx_string_put(v->mlx, v->win, 30, 200, ORANGE,
-		"Press A to lower isometric altitude.");
+		"Press A to toggle isometric altitude.");
+	mlx_string_put(v->mlx, v->win, 30, 240, ORANGE,
+		"Press + to zoom in");
+	mlx_string_put(v->mlx, v->win, 30, 280, ORANGE,
+		"Press - to zoom out");
 	mlx_string_put(v->mlx, v->win, WIDTH - 440, HEIGHT - 65, NETTLE,
 		"Ansel Nettles | github.com/anselnettles");
 	mlx_string_put(v->mlx, v->win, WIDTH - 440, HEIGHT - 45, DAWN,
 		"\" C o d e - ' n - S w o r d \"");
 	v->parallel_mode = PARALLEL_FALSE;
 	v->altitude = ISOMETRIC_DEPTH;
+	v->start_pos = START_POS;
+	v->half_length = START_POS;
+	v->increment = INCREMENT;
+	v->isometric_increment = ISOMETRIC_INCREMENT;
 }
 
 int	extract_file(t_vars *v)

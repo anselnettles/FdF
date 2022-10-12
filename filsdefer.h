@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/07 17:03:13 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/12 14:38:24 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@
 # define SHIFT 56
 # define TAB 48
 # define A 0
+# define PLUSA 69
+# define PLUSB 24
+# define MINUSA 78
+# define MINUSB 27
 
 // Definitions for color constants.
 # define RED 0xCC0000
@@ -79,7 +83,10 @@ typedef struct s_vars {
 	int				fd;
 	char			*coordinate;
 	int				altitude;
-
+	int				start_pos;
+	int				half_length;
+	int				increment;
+	int				isometric_increment;
 }	t_vars;
 
 // Error types
