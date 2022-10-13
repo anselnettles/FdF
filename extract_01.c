@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/12 14:37:59 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/13 12:05:02 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static int	open_read_projection(t_vars *v)
 		return (error(READ_FAIL));
 	if (v->parallel_mode == PARALLEL_TRUE)
 	{
-		v->x_pos = v->start_pos;
+		v->x_pos = v->x_start_pos;
 		mlx_string_put(v->mlx, v->win, 60, 20, DAWN,
 			"[ P a r a l l e l ]  Projection Mode.");
 	}
 	if (v->parallel_mode == PARALLEL_FALSE)
 	{
-		v->x_pos = v->half_length;
+		v->x_pos = v->x_start_pos;
 		mlx_string_put(v->mlx, v->win, 60, 20, DAWN,
 			"[ I s o m e t r i c ]  Projection Mode.");
 	}
@@ -99,13 +99,13 @@ static int	graphic_loop(t_vars *v)
 			v->prev_y = NEW_LINE;
 			if (v->parallel_mode == PARALLEL_TRUE)
 			{
-				v->x_pos = v->start_pos;
+				v->x_pos = v->x_start_pos;
 				v->y_pos += v->increment;
 			}
 			else if (v->parallel_mode == PARALLEL_FALSE)
 			{
-				v->x_pos = (int)(v->half_length - ((v->isometric_increment) * v->nl));
-				v->y_pos = (int)(v->start_pos + ((v->isometric_increment) * v->nl));
+				v->x_pos = (int)(v->x_start_pos - ((v->isometric_increment) * v->nl));
+				v->y_pos = (int)(v->y_start_pos + ((v->isometric_increment) * v->nl));
 			}
 		}
 		v->i++;
@@ -118,7 +118,7 @@ int	projection(t_vars *v)
 	v->i = 0;
 	v->nl = 0;
 	v->cl = 0;
-	v->y_pos = v->start_pos;
+	v->y_pos = v->y_start_pos;
 	v->prev_x = NEW_LINE;
 	v->prev_y = NEW_LINE;
 	open_read_projection(v);

@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/12 14:38:24 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/13 12:10:14 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define PARALLEL_FALSE 0		// False statement for Parallel Mode
 # define NEW_LINE -1			// Used to neutralize variables
 
-// MAC Keyboard keys
+// Mac Keyboard keys
 # define ESC 53
 # define RETURN 36
 # define SHIFT 56
@@ -37,6 +37,14 @@
 # define PLUSB 24
 # define MINUSA 78
 # define MINUSB 27
+# define UP 126
+# define NUM_UP 91
+# define DOWN 125
+# define NUM_DOWN 84
+# define LEFT 123
+# define NUM_LEFT 86
+# define RIGHT 124
+# define NUM_RIGHT 88
 
 // Definitions for color constants.
 # define RED 0xCC0000
@@ -84,6 +92,8 @@ typedef struct s_vars {
 	char			*coordinate;
 	int				altitude;
 	int				start_pos;
+	int				x_start_pos;
+	int				y_start_pos;
 	int				half_length;
 	int				increment;
 	int				isometric_increment;

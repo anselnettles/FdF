@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/12 14:41:18 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/13 12:08:47 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,43 @@ int		keypress(int key, void *param)
 	}
 	if (key == PLUSA || key == PLUSB)
 	{
+	//	v->start_pos *= 0.95;
+	//	v->half_length *= 0.95;
+		v->increment *= 1.05;
+		v->isometric_increment *= 1.05;
 		mlx_clear_window(v->mlx, v->win);
-		v->start_pos *= 0.95;
-		v->half_length *= 0.95;
-		v->increment *= 1.95;
-		v->isometric_increment *= 1.95;
 		projection(v);
 	}
 	if (key == MINUSA || key == MINUSB)
 	{
-		v->start_pos *= 1.05;
-		v->half_length *= 1.05;
+	//	v->start_pos *= 1.05;
+	//	v->half_length *= 1.05;
 		v->increment *= 0.95;
 		v->isometric_increment *= 0.95;
+		mlx_clear_window(v->mlx, v->win);
+		projection(v);
+	}
+	if (key == UP || key == NUM_UP)
+	{
+		v->y_start_pos *= 0.95;
+		mlx_clear_window(v->mlx, v->win);
+		projection(v);
+	}
+	if (key == DOWN || key == NUM_DOWN)
+	{
+		v->y_start_pos *= 1.05;
+		mlx_clear_window(v->mlx, v->win);
+		projection(v);
+	}
+	if (key == LEFT || key == NUM_LEFT)
+	{
+		v->x_start_pos *= 0.95;
+		mlx_clear_window(v->mlx, v->win);
+		projection(v);
+	}
+	if (key == RIGHT || key == NUM_RIGHT)
+	{
+		v->x_start_pos *= 1.05;
 		mlx_clear_window(v->mlx, v->win);
 		projection(v);
 	}
@@ -96,8 +120,9 @@ void	initialization(t_vars *v)
 		"\" C o d e - ' n - S w o r d \"");
 	v->parallel_mode = PARALLEL_FALSE;
 	v->altitude = ISOMETRIC_DEPTH;
-	v->start_pos = START_POS;
-	v->half_length = START_POS;
+	v->x_start_pos = START_POS;
+	v->y_start_pos = START_POS;
+//	v->half_length = START_POS;
 	v->increment = INCREMENT;
 	v->isometric_increment = ISOMETRIC_INCREMENT;
 }
