@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/13 12:08:47 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/13 16:11:45 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,68 +28,47 @@ int		keypress(int key, void *param)
 	t_vars	*v;
 
 	v = (t_vars *)param;
-	if (key == TAB)
+	if (key)
 	{
-		mlx_clear_window(v->mlx, v->win);
-		if (v->parallel_mode == PARALLEL_FALSE)
-			v->parallel_mode = PARALLEL_TRUE;
-		else if (v->parallel_mode == PARALLEL_TRUE)
-			v->parallel_mode = PARALLEL_FALSE;
-		projection(v);
-	}
-	if (key == A)
-	{
-		if (v->altitude == ISOMETRIC_DEPTH)
-			v->altitude = ISOMETRIC_TOGGLE;
-		else
-			v->altitude = ISOMETRIC_DEPTH;
-	}
-	if (key == PLUSA || key == PLUSB)
-	{
-	//	v->start_pos *= 0.95;
-	//	v->half_length *= 0.95;
-		v->increment *= 1.05;
-		v->isometric_increment *= 1.05;
-		mlx_clear_window(v->mlx, v->win);
-		projection(v);
-	}
-	if (key == MINUSA || key == MINUSB)
-	{
-	//	v->start_pos *= 1.05;
-	//	v->half_length *= 1.05;
-		v->increment *= 0.95;
-		v->isometric_increment *= 0.95;
-		mlx_clear_window(v->mlx, v->win);
-		projection(v);
-	}
-	if (key == UP || key == NUM_UP)
-	{
-		v->y_start_pos *= 0.95;
-		mlx_clear_window(v->mlx, v->win);
-		projection(v);
-	}
-	if (key == DOWN || key == NUM_DOWN)
-	{
-		v->y_start_pos *= 1.05;
+		if (key == TAB)
+		{
+			if (v->parallel_mode == PARALLEL_FALSE)
+				v->parallel_mode = PARALLEL_TRUE;
+			else if (v->parallel_mode == PARALLEL_TRUE)
+				v->parallel_mode = PARALLEL_FALSE;
+		}
+		if (key == A)
+		{
+			if (v->altitude == ISOMETRIC_DEPTH)
+				v->altitude = ISOMETRIC_TOGGLE;
+			else
+				v->altitude = ISOMETRIC_DEPTH;
+		}
+		if (key == PLUSA || key == PLUSB)
+		{
+			v->increment *= 1.10;
+			v->isometric_increment *= 1.10;
+		}
+		if (key == MINUSA || key == MINUSB)
+		{
+			v->increment *= 0.90;
+			v->isometric_increment *= 0.90;
+		}
+		if (key == UP || key == NUM_UP)
+			v->y_start_pos += 10;
+		if (key == DOWN || key == NUM_DOWN)
+			v->y_start_pos -= 10;
+		if (key == LEFT || key == NUM_LEFT)
+			v->x_start_pos += 10;
+		if (key == RIGHT || key == NUM_RIGHT)
+			v->x_start_pos -= 10;
+		if (key == ESC)
+		{
+			mlx_destroy_window(v->mlx, v->win);
+			exit (0);
+		}
 		mlx_clear_window(v->mlx, v->win);
 		projection(v);
-	}
-	if (key == LEFT || key == NUM_LEFT)
-	{
-		v->x_start_pos *= 0.95;
-		mlx_clear_window(v->mlx, v->win);
-		projection(v);
-	}
-	if (key == RIGHT || key == NUM_RIGHT)
-	{
-		v->x_start_pos *= 1.05;
-		mlx_clear_window(v->mlx, v->win);
-		projection(v);
-	}
-	if (key == ESC)
-	{
-		mlx_destroy_window(v->mlx, v->win);
-		exit (0);
 	}
 	return (0);
 }
