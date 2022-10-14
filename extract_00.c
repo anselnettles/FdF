@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/13 16:11:45 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:58:32 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,28 @@ int		keypress(int key, void *param)
 			v->increment *= 0.90;
 			v->isometric_increment *= 0.90;
 		}
-		if (key == UP || key == NUM_UP)
-			v->y_start_pos += 10;
-		if (key == DOWN || key == NUM_DOWN)
-			v->y_start_pos -= 10;
-		if (key == LEFT || key == NUM_LEFT)
-			v->x_start_pos += 10;
-		if (key == RIGHT || key == NUM_RIGHT)
-			v->x_start_pos -= 10;
+		if (v->increment < 40)
+		{
+			if (key == UP || key == NUM_UP)
+			v->y_start_pos += 20;
+			if (key == DOWN || key == NUM_DOWN)
+			v->y_start_pos -= 20;
+			if (key == LEFT || key == NUM_LEFT)
+			v->x_start_pos += 20;
+			if (key == RIGHT || key == NUM_RIGHT)
+			v->x_start_pos -= 20;
+		}
+		else
+		{
+			if (key == UP || key == NUM_UP)
+			v->y_start_pos += 60;
+			if (key == DOWN || key == NUM_DOWN)
+			v->y_start_pos -= 60;
+			if (key == LEFT || key == NUM_LEFT)
+			v->x_start_pos += 60;
+			if (key == RIGHT || key == NUM_RIGHT)
+			v->x_start_pos -= 60;
+		}
 		if (key == ESC)
 		{
 			mlx_destroy_window(v->mlx, v->win);
