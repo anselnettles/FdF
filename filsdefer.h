@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:02:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/13 12:10:14 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/17 16:33:52 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define HALF_LENGTH 320		// Half of the resolution width (for Isometric)
 # define INCREMENT 40			// The increment in-between pixel coordinates
 # define ISOMETRIC_INCREMENT 30 // The increment when in Isometric Mode
-# define ISOMETRIC_DEPTH 15		// Standard altitude setting for Z-axis
+# define ISOMETRIC_DEPTH 10		// Standard altitude setting for Z-axis
 # define ISOMETRIC_TOGGLE 1		// ADJUST THIS for a different toggle option
 # define PARALLEL_TRUE 1		// True statement for Parallel Mode
 # define PARALLEL_FALSE 0		// False statement for Parallel Mode
@@ -45,6 +45,9 @@
 # define NUM_LEFT 86
 # define RIGHT 124
 # define NUM_RIGHT 88
+# define ENTER 76
+# define NUM_MULTIPLY 67
+# define NUM_DIVIDE 75
 
 // Definitions for color constants.
 # define RED 0xCC0000

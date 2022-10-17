@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/14 15:58:32 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/17 17:01:07 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,45 @@ int		keypress(int key, void *param)
 			else if (v->parallel_mode == PARALLEL_TRUE)
 				v->parallel_mode = PARALLEL_FALSE;
 		}
-		if (key == A)
-		{
-			if (v->altitude == ISOMETRIC_DEPTH)
-				v->altitude = ISOMETRIC_TOGGLE;
-			else
-				v->altitude = ISOMETRIC_DEPTH;
-		}
 		if (key == PLUSA || key == PLUSB)
 		{
-			v->increment *= 1.10;
-			v->isometric_increment *= 1.10;
+			if (v->increment < 20)
+			{
+				v->increment += 4;
+				v->isometric_increment += 3;
+			}
+			else
+			{
+				v->increment *= 1.10;
+				v->isometric_increment *= 1.10;
+			}
 		}
 		if (key == MINUSA || key == MINUSB)
 		{
-			v->increment *= 0.90;
-			v->isometric_increment *= 0.90;
+			if (v->increment < 20)
+			{
+				v->increment -= 4;
+				v->isometric_increment -= 3;
+			}
+			else
+			{
+				v->increment *= 0.90;
+				v->isometric_increment *= 0.90;
+			}
+		}
+		if (key == NUM_MULTIPLY)
+		{
+			if (v->altitude < 9)
+				v->altitude += 1;
+			else
+				v->altitude *= 1.20;
+		}
+		if (key == NUM_DIVIDE)
+		{
+			if (v->altitude < 9)
+				v->altitude -= 1;
+			else
+				v->altitude *= 0.80;
 		}
 		if (v->increment < 40)
 		{
@@ -101,12 +124,6 @@ void	initialization(t_vars *v)
 		"Press TAB to toggle projection.");
 	mlx_string_put(v->mlx, v->win, 30, 160, ORANGE,
 		"Press ESC to quit.");
-	mlx_string_put(v->mlx, v->win, 30, 200, ORANGE,
-		"Press A to toggle isometric altitude.");
-	mlx_string_put(v->mlx, v->win, 30, 240, ORANGE,
-		"Press + to zoom in");
-	mlx_string_put(v->mlx, v->win, 30, 280, ORANGE,
-		"Press - to zoom out");
 	mlx_string_put(v->mlx, v->win, WIDTH - 440, HEIGHT - 65, NETTLE,
 		"Ansel Nettles | github.com/anselnettles");
 	mlx_string_put(v->mlx, v->win, WIDTH - 440, HEIGHT - 45, DAWN,
