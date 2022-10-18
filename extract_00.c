@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:04:53 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/17 17:01:07 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/18 18:47:03 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,19 @@ int		keypress(int key, void *param)
 		}
 		if (key == NUM_MULTIPLY)
 		{
-			if (v->altitude < 9)
+			if (v->altitude <= 9 && v->altitude >= 0)
 				v->altitude += 1;
-			else
+			else if (v->altitude > 9)
 				v->altitude *= 1.20;
+			else;
 		}
 		if (key == NUM_DIVIDE)
 		{
-			if (v->altitude < 9)
+			if (v->altitude < 9 && v->altitude > 0)
 				v->altitude -= 1;
-			else
+			else if (v->altitude > 9)
 				v->altitude *= 0.80;
+			else;
 		}
 		if (v->increment < 40)
 		{
