@@ -11,7 +11,7 @@ MiniLibraryX (MLX) is a 42School graphical library used in the graphics branch p
 <b>Controls for MAC:</b> <br> 
 • Press `TAB` to toggle projection modes (Parallel Mode, Isometric Mode). <br>
 • Press `ESC` to quit the program. <br>
-• Press `A` to toggle between peak height factor when switching back to Isometric Mode. <br>
+• Press `*` or `/` to adjust height peaks scale. <br>
 • Press `+` or `-` to zoom in or out. <br>
 • Press `↑`, `←`, `→` or `↓` to move the map.<br><br>
 As the program was initially planned for school computer use, the keyboard controls may not be hooked properly to other than MacOS.
@@ -21,8 +21,8 @@ As the program was initially planned for school computer use, the keyboard contr
 # To do. | Future capacities.
 
 • Compatibility with different OS (with MiniLibraryX and keyboard controls) <br>
-• Scaling the graphical projection's width to the window resolution <br>
-• Scaling the peaks (altitude) of the graphical projection to the window resolution <br>
+• Automatic scaling the graphical projection's width to the window resolution <br>
+• Automatic scaling the peaks (altitude) of the graphical projection to the window resolution <br>
 • Scaling the color hue in-between altitudes (coordinates) for better visual representation <br>
 • HEX color value parsing in the map coordinate data <br>
 <strike>• Zoom in feature (keyboard or mouse) </strike><br>
