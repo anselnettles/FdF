@@ -6,7 +6,7 @@
 /*   By: aviholai <aviholai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:50:39 by aviholai          #+#    #+#             */
-/*   Updated: 2022/10/17 17:00:24 by aviholai         ###   ########.fr       */
+/*   Updated: 2022/10/19 18:02:49 by aviholai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static int	open_read_projection(t_vars *v)
 		mlx_string_put(v->mlx, v->win, 60, 20, DAWN,
 			"[ I s o m e t r i c ]  Projection Mode.");
 	}
+		mlx_string_put(v->mlx, v->win, 60, 40, NIGHT,
+			"| TAB to change Mode. | ^ < v > to move. | + - to zoom. | * / to adjust altitude. | ESC to quit. |");
 	return (0);
 }
 
