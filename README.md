@@ -16,7 +16,8 @@ MiniLibraryX (MLX) is a 42School graphical library used in the graphics branch p
 • Press `↑`, `←`, `→` or `↓` to move the map.<br><br>
 As the program was initially planned for school computer use, the keyboard controls may not be hooked properly to other than MacOS.
 
-![Animated usage GIF of the project](https://github.com/anselnettles/FdF/blob/main/fdf_video.gif)
+![fdf_video](https://user-images.githubusercontent.com/70949716/198287968-788d3880-bcd1-4b39-b190-efe02644fe42.gif)
+
 
 # To do. | Future capacities.
 
